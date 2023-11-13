@@ -1,0 +1,37 @@
+@url=http://localhost:3000/api/jawaban
+GET {{url}} HTTP/1.1
+Content-Type: application/json
+
+####
+
+GET {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+####
+
+POST  {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+
+  "pilihan": "yakin",
+  "KondisiId": 1,
+  "konsulId": 1
+}
+
+####
+
+put  {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "kode": "002",
+  "nama": "Cat Jelek"
+}
+####
+
+DELETE {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+###

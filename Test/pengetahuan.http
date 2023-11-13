@@ -1,0 +1,40 @@
+@url=http://localhost:3000/api/pengetahuan
+GET {{url}} HTTP/1.1
+Content-Type: application/json
+
+
+####
+
+GET {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+####
+
+
+POST  {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 2,
+  "cf": 1.0,
+  "catId": 1,
+  "KondisiId": 3
+}
+
+####
+
+put  {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "cf": 0.5,
+  "catId": 1,
+  "KondisiId": 1
+}
+####
+
+DELETE {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+###

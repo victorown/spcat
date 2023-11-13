@@ -1,0 +1,41 @@
+@url=http://localhost:3000/api/konsumen
+GET {{url}} HTTP/1.1
+Content-Type: application/json
+
+
+####
+
+GET {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+####
+
+POST  {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "namaKonsumen": "Robert Kiosaki",
+  "alamat": "jln. Sudirman",
+  "kontak": "08111",
+  "email": "ocph23.test@gmail.com"
+}
+
+####
+
+put  {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "namaKonsumen": "Robert",
+  "alamat": "jln. Sudirman",
+  "kontak": "08111",
+  "email": "ocph23.test@gmail.com"
+}
+####
+
+DELETE {{url}}/2 HTTP/1.1
+Content-Type: application/json
+
+###

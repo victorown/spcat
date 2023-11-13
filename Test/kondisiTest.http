@@ -1,0 +1,38 @@
+@url=http://localhost:3000/api/kondisi
+GET {{url}} HTTP/1.1
+Content-Type: application/json
+
+
+####
+
+GET {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+####
+
+
+POST  {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 3,
+  "kode": "003",
+  "nama": "Samping sini juga"
+}
+
+####
+
+put  {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "kode": "00 2",
+  "nama": "Sebelah sini"
+}
+####
+
+DELETE {{url}}/1 HTTP/1.1
+Content-Type: application/json
+
+###
