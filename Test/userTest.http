@@ -1,0 +1,11 @@
+@url=http://localhost:3000/api/login
+POST  {{url}} HTTP/1.1
+Content-Type: application/json
+
+
+{
+  "userName": "Admin170",
+  "password": "admin170"
+}
+
+####

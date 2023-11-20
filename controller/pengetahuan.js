@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const middleware = require("./midd");
 
 const { Pengetahuan } = require("../models");
 
 // GET all Pengetahuan
-router.get("/", async (req, res) => {
+router.get("/", middleware, async (req, res) => {
   try {
     const penge = await Pengetahuan.findAll();
     res.json(penge);

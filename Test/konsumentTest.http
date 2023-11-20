@@ -1,21 +1,24 @@
 @url=http://localhost:3000/api/konsumen
+@token =  bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluMTcwIiwiaWF0IjoxNzAwNDY2NTU5LCJleHAiOjE3MDA1NTI5NTl9._yl___6BOGkA8dXcnS59UGiUJcehBTAJrPgxFtj8k14
 GET {{url}} HTTP/1.1
 Content-Type: application/json
-
+Authorization: {{token}}
 
 ####
 
 GET {{url}}/1 HTTP/1.1
 Content-Type: application/json
+Authorization: {{token}}
 
 ####
 
 POST  {{url}} HTTP/1.1
 Content-Type: application/json
+Authorization: {{token}}
 
 {
-  "id": 1,
-  "namaKonsumen": "Robert Kiosaki",
+  "id": 2,
+  "namaKonsumen": "Robert Kiyosaki",
   "alamat": "jln. Sudirman",
   "kontak": "08111",
   "email": "ocph23.test@gmail.com"
@@ -23,12 +26,13 @@ Content-Type: application/json
 
 ####
 
-put  {{url}}/1 HTTP/1.1
+put  {{url}}/2 HTTP/1.1
 Content-Type: application/json
+Authorization: {{token}}
 
 {
-  "id": 1,
-  "namaKonsumen": "Robert",
+  "id": 2,
+  "namaKonsumen": "Roberts Kiyosaki",
   "alamat": "jln. Sudirman",
   "kontak": "08111",
   "email": "ocph23.test@gmail.com"
@@ -37,5 +41,6 @@ Content-Type: application/json
 
 DELETE {{url}}/2 HTTP/1.1
 Content-Type: application/json
+Authorization: {{token}}
 
 ###

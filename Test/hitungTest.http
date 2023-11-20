@@ -1,0 +1,40 @@
+@url=http://localhost:3000/api/hitung
+
+
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+[
+      {
+        "id": 1,
+        "kode": "001",
+        "nama": "Samping sana",
+        "Jawaban": {
+          "pilihan": "yakin",
+          "konsulId": 1,
+          "KondisiId": 1
+        }
+      },
+      {
+        "id":2,
+        "kode": "001",
+        "nama": "Samping sana",
+        "Jawaban": {
+          "pilihan": "yakin",
+          "konsulId": 1,
+          "KondisiId":2
+        }
+      },
+      {
+        "id": 3,
+        "kode": "001",
+        "nama": "Samping sana",
+        "Jawaban": {
+          "pilihan": "yakin",
+          "konsulId": 1,
+          "KondisiId": 3
+        }
+      }
+]
+
+###

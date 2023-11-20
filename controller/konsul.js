@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { konsul, Kondisi } = require("../models");
+const { konsul, Kondisi, Jawaban } = require("../models");
 
 // GET all konsul
 router.get("/", async (req, res) => {
@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   let id = req.params.id;
   try {
-    const kons = await konsul.findOne({ idkonsul: id });
+    const kons = await konsul.findOne({ idkonsul: id, include: Kondisi });
     res.json(kons);
   } catch (error) {
     console.error("Error:", error);
@@ -36,6 +36,12 @@ router.post("", async (req, res) => {
   model.tanggal = new Date();
   try {
     const kons = await konsul.create(model);
+    for (let index = 0; index < model.Jawaban.length; index++) {
+      const element = model.Jawaban[index];
+      element.konsulId = kons.id;
+      const j = await Jawaban.create(element);
+    }
+
     res.json(kons);
   } catch (error) {
     if (error.name === "SequelizeDatabaseError") {
