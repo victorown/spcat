@@ -18,7 +18,7 @@ router.get("/", middleware, async (req, res) => {
 });
 
 // GET a Pengetahuan by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", middleware, async (req, res) => {
   let id = req.params.id;
   try {
     const penge = await Pengetahuan.findOne({ idcat: id });
@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST create a new Pengetahuan
-router.post("", async (req, res) => {
+router.post("", middleware, async (req, res) => {
   var model = req.body;
 
   try {
@@ -53,7 +53,7 @@ router.post("", async (req, res) => {
 });
 
 // PUT update a Pengetahuan by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", middleware, async (req, res) => {
   let id = req.params.id;
   var updatedModel = req.body;
 
@@ -78,7 +78,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE a Pengetahuan by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", middleware, async (req, res) => {
   let id = req.params.id;
 
   try {

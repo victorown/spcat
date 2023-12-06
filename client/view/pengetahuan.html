@@ -64,12 +64,12 @@
                     <span>Jenis Cat</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./konndisi.html">
+                <a class="nav-link" href="./kondisi.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Kondisi Rumah</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./penetahuan.html">
+                <a class="nav-link" href="./pengetahuan.html">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>Basis Pengetahuan</span></a>
             </li>
@@ -189,10 +189,10 @@
                     </div>
                     <div class="row mb-5">
                         <div class="col">
-                            <a href="" class="btn btn-primary">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#input">
                                 <i class="fas fa-plus mr-2"></i>
                                 Tambah Basis Pengetahuan
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <div class="row">
@@ -208,11 +208,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Colour Extreme</td>
-                                        <td>Tinggal di pusat kota</td>
-                                        <td>0,6</td>
+                                    <tr v-for="(pengetahuan, index) in pengetahuanList" :key="pengetahuan.id">
+                                        <td>{{index + 1}}</td>
+                                        <td>{{ getNamaCatById(pengetahuan.catId) }}</td>
+                                        <td>{{ getNamaKondisiById(pengetahuan.KondisiId) }}</td>
+                                        <td>{{ pengetahuan.cf }}</td>
                                         <td><a href="" class="btn btn-warning mr-3">
                                                 <i class="fas fa-edit"></i></a>
                                             <a href="" class="btn btn-danger">
@@ -239,6 +239,47 @@
                 </div>
             </footer>
             <!-- End of Footer -->
+
+            <div class="modal fade" id="input" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Input Data Pengetahuan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form @submit.prevent="addPenge">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Jenis Cat</label>
+                                    <select class="custom-select" v-model="catId">
+                                        <option v-for="cat in pengetahuanList" :value="cat.id">
+                                            {{cat.nama}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Kondisi Rumah</label>
+                                    <select class="custom-select" v-model="KondisiId">
+                                        <option v-for="kondisi in kondisiList" :value="kondisi.id">
+                                            {{kondisi.nama}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Nilai Certainty Factor</label>
+                                    <input v-model="cf" type="text" class="form-control"
+                                        placeholder="Enter cf value in float" id="exampleInputPassword1">
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -271,6 +312,11 @@
         </div>
     </div>
 
+    <!-- vuejs -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="../dist/vendor/jquery/jquery.min.js"></script>
     <script src="../dist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -284,9 +330,60 @@
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../dist/js/demo/chart-area-demo.js"></script>
-    <script src="../dist/js/demo/chart-pie-demo.js"></script>
+
+    <script>
+        new Vue({
+            el: '#content-wrapper',
+            data: {
+                pengetahuanList: [],
+                kondisiList: [],
+                catList: [],
+                apiUrl: 'http://localhost:3000/api/cat',
+                apiKondisi: 'http://localhost:3000/api/kondisi',
+                apiPenge: 'http://localhost:3000/api/pengetahuan',
+                KondisiId: '',
+                catId: '',
+                cf: '',
+                token: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluMTcwIiwiaWF0IjoxNzAxMDcyMzMwLCJleHAiOjE3MDExNTg3MzB9.A0zFQPWSgcoo7mai3IJcVNnKKVmXnwL9qmubsGeLGIY',
+            },
+            mounted() {
+                this.getDataFromApi();
+                this.getDataKondisi();
+                this.getDataCat();
+            },
+            methods: {
+                getDataFromApi() {
+                    axios.get(this.apiPenge, { headers: { Authorization: this.token }, withCredentials: true })
+                        .then(res => {
+                            this.pengetahuanList = res.data;
+                        })
+                        .catch(err => console.error(err));
+                },
+                getDataKondisi() {
+                    axios.get(this.apiKondisi, { headers: { Authorization: this.token }, withCredentials: true })
+                        .then(res => {
+                            this.kondisiList = res.data;
+                        })
+                        .catch(err => console.error(err));
+                },
+                getDataCat() {
+                    axios.get(this.apiUrl, { headers: { Authorization: this.token }, withCredentials: true })
+                        .then(res => {
+                            this.catList = res.data;
+                        })
+                        .catch(err => console.error(err));
+                },
+                getNamaCatById(catId) {
+                    const dataCat = this.catList.find(item => item.id === catId);
+                    return dataCat ? dataCat.nama : 'Cat tidak ditemukan';
+                },
+                getNamaKondisiById(KondisiId) {
+                    const dataKondisi = this.kondisiList.find(item => item.id === KondisiId);
+                    return dataKondisi ? dataKondisi.nama : 'Kondisi tidak ditemukan';
+                },
+            },
+        });
+    </script>
 
 </body>
 

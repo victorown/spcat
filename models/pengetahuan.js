@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       cf: DataTypes.DOUBLE,
       catId: DataTypes.INTEGER,
-      kondisiId: DataTypes.INTEGER,
+      KondisiId: DataTypes.INTEGER,
     },
     {
       sequelize,

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>{{title}}</title>
 
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,12 +20,13 @@
     <!-- Custom styles for this template-->
     <link href="../dist/css/sb-admin-2.min.css" rel="stylesheet">
 
+
 </head>
 
 <body class="bg-gradient-primary"
     style="height: 100vh; align-items: center; justify-content: center; display: flex; margin: 0;">
 
-    <div class="container">
+    <div class="container" id="login">
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -34,34 +35,26 @@
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row" style="max-width: 1000px; width: 100%;">
+                        <div class="row">
                             <div class="col">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" @submit.prevent="login">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input v-model="userName" type="text" class="form-control form-control-user"
+                                                id="exampleInputUserName" placeholder="Enter Username...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input v-model="password" type="password"
+                                                class="form-control form-control-user" id="exampleInputPassword"
+                                                placeholder="Password">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <button class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </a>
-
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -81,8 +74,66 @@
     <!-- Core plugin JavaScript-->
     <script src="../dist/vendor/jquery-easing/jquery.easing.min.js"></script>
 
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- Custom scripts for all pages-->
     <script src="../dist/js/sb-admin-2.min.js"></script>
+
+    <script>
+        new Vue({
+            el: '#login',
+            data: {
+                pageTitle: 'Login | SP Jotun Cat',
+                userName: '',
+                password: '',
+            },
+            created() {
+                const token = localStorage.getItem('token');
+
+                if (token) {
+                    this.isAuthenticated = true;
+                    window.location.href = '../index.html';
+                } else {
+                    this.isAuthenticated = false;
+                }
+            },
+            methods: {
+                login() {
+                    console.log('Login function is called');
+                    const apiUrl = 'http://localhost:3000/api/login';
+
+                    const formData = {
+                        userName: this.userName,
+                        password: this.password
+                    };
+
+                    axios.post(apiUrl, formData)
+                        .then(response => {
+                            console.log('login successful:', response);
+
+                            axios.defaults.headers.common['authorization'] = 'bearer ' + response.data.token;
+
+                            localStorage.setItem('token', JSON.stringify(response.data.token));
+
+                            window.location.href = 'http://localhost:3000/index.html';
+                        })
+                        .catch(error => {
+                            console.error('Login failed:', error);
+                        });
+                }
+            },
+        });
+        new Vue({
+            el: 'title',
+            data: {
+                title: "Login | SP Jotun"
+            }
+        })
+    </script>
 
 </body>
 

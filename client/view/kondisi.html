@@ -64,12 +64,12 @@
                     <span>Jenis Cat</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./konndisi.html">
+                <a class="nav-link" href="./kondisi.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Kondisi Rumah</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./penetahuan.html">
+                <a class="nav-link" href="./pengetahuan.html">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>Basis Pengetahuan</span></a>
             </li>
@@ -189,10 +189,10 @@
                     </div>
                     <div class="row mb-5">
                         <div class="col">
-                            <a href="" class="btn btn-primary">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#input">
                                 <i class="fas fa-plus mr-2"></i>
                                 Tambah kondisi
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <div class="row">
@@ -207,13 +207,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>K001</td>
-                                        <td>Tinggal dekat dengan laut</td>
+                                    <tr v-for="(kondisi, index) in kondisiRumahList" :key="index">
+                                        <td>{{index + 1}}</td>
+                                        <td>{{kondisi.kode}}</td>
+                                        <td>{{kondisi.nama}}</td>
                                         <td><a href="" class="btn btn-warning mr-3">
                                                 <i class="fas fa-edit"></i></a>
-                                            <a href="" class="btn btn-danger">
+                                            <a @click="delKon(kondisi.id)" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
@@ -237,6 +237,39 @@
                 </div>
             </footer>
             <!-- End of Footer -->
+
+            <div class="modal fade" id="input" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Input Data Kondisi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form @submit.prevent="addKon">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Kode Cat</label>
+                                    <input v-model="kode" type="text" class="form-control"
+                                        placeholder="Enter Paint Code" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Nama Cat</label>
+                                    <input v-model="nama" type="text" class="form-control"
+                                        placeholder="Enter Paint Name" id="exampleInputPassword1">
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -269,6 +302,12 @@
         </div>
     </div>
 
+    <!-- vuejs -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="../dist/vendor/jquery/jquery.min.js"></script>
     <script src="../dist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -282,9 +321,63 @@
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../dist/js/demo/chart-area-demo.js"></script>
-    <script src="../dist/js/demo/chart-pie-demo.js"></script>
+
+    <script>
+        new Vue({
+            el: '#content-wrapper',
+            data: {
+                kondisiRumahList: [],
+                apiUrl: "http://localhost:3000/api/kondisi",
+                kode: '',
+                nama: ''
+            },
+            mounted() {
+                this.getDataFromApi();
+            },
+            created() {
+                const token = localStorage.getItem('token');
+
+                if (token) {
+                    this.isAuthenticated = true;
+                } else {
+                    this.isAuthenticated = false;
+                    window.location.href = './login.html';
+                }
+            },
+            methods: {
+                getDataFromApi() {
+                    axios.get(this.apiUrl)
+                        .then(res => {
+                            this.kondisiRumahList = res.data
+                        })
+                        .catch(err => console.error(err))
+                },
+                addKon() {
+                    const data = {
+                        kode: this.kode,
+                        nama: this.nama
+                    }
+                    axios.post(this.apiUrl, data)
+                        .then(res => {
+                            $('#input').modal('hide')
+                            this.kondisiRumahList.push(res.data);
+                            this.kode = '';
+                            this.nama = '';
+                        })
+                        .catch(err => {
+                            console.error(err)
+                        })
+                },
+                delKon(id) {
+                    axios.delete(`http://localhost:3000/api/kondisi/${id}`)
+                        .then(() => {
+                            console.log(id);
+                            this.kondisiRumahList = this.kondisiRumahList.filter(kondisi => kondisi.id !== id);
+                        })
+                }
+            }
+        });
+    </script>
 
 </body>
 

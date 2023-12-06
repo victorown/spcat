@@ -1,5 +1,5 @@
 @url=http://localhost:3000/api/cat
-@token =  bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluMTcwIiwiaWF0IjoxNzAwNDY2NTU5LCJleHAiOjE3MDA1NTI5NTl9._yl___6BOGkA8dXcnS59UGiUJcehBTAJrPgxFtj8k14
+@token =  bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluMTcwIiwiaWF0IjoxNzAxMDg4NjE1LCJleHAiOjE3MDExNzUwMTV9.7c3_eGfBnM6pjiTetNJzEcYkvdd4tf6toYXFPp0zv5k
 
 
 GET {{url}} HTTP/1.1

@@ -4,7 +4,7 @@ const router = express.Router();
 const { Kondisi } = require("../models");
 
 // GET all kondisi
-router.get("/", async (req, res) => {
+router.get("/", middleware, async (req, res) => {
   try {
     const kond = await Kondisi.findAll();
     res.json(kond);
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET a kondisi by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", middleware, async (req, res) => {
   let id = req.params.id;
   try {
     const kond = await Kondisi.findOne({ idkondisi: id });
@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST create a new kondisi
-router.post("", async (req, res) => {
+router.post("", middleware, async (req, res) => {
   var model = req.body;
 
   try {
@@ -52,7 +52,7 @@ router.post("", async (req, res) => {
 });
 
 // PUT update a kondisi by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", middleware, async (req, res) => {
   let id = req.params.id;
   var updatedModel = req.body;
 
@@ -77,7 +77,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE a kondisi by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", middleware, async (req, res) => {
   let id = req.params.id;
 
   try {

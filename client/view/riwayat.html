@@ -64,12 +64,12 @@
                     <span>Jenis Cat</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./konndisi.html">
+                <a class="nav-link" href="./kondisi.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Kondisi Rumah</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./penetahuan.html">
+                <a class="nav-link" href="./pengetahuan.html">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>Basis Pengetahuan</span></a>
             </li>
@@ -200,13 +200,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Ariel Kurniawan</td>
-                                        <td>Jl. Kesehatan I</td>
-                                        <td>08212128012812</td>
+                                    <tr v-for="(riwayat, index) in riwayatList" :key="index">
+                                        <td>{{ index + 1}}</td>
+                                        <td>{{ riwayat.namaKonsumen}}</td>
+                                        <td>{{ riwayat.alamat}}</td>
+                                        <td>{{ riwayat.kontak}}</td>
                                         <td>
-                                            <a href="" class="btn btn-info">
+                                            <a href="" class="btn btn-info" data-toggle="modal" data-target="#detail"
+                                                @click="riwayatDetail(riwayat)">
                                                 <i class="fas fa-info"></i></a>
                                         </td>
                                     </tr>
@@ -230,6 +231,39 @@
                 </div>
             </footer>
             <!-- End of Footer -->
+
+            <!-- Modal detail -->
+            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ selectedRiwayat ?
+                                selectedRiwayat.namaKonsumen
+                                :
+                                '' }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Alamat: {{ selectedRiwayat ? selectedRiwayat.alamat : '' }}</p>
+                            <p>Kontak: {{ selectedRiwayat ? selectedRiwayat.kontak : '' }}</p>
+                            <p>Email: {{ selectedRiwayat ? selectedRiwayat.email : '' }}</p>
+                            <h5>Daftar Konsul:</h5>
+                            <ul v-if="selectedRiwayat && selectedRiwayat.konsuls && selectedRiwayat.konsuls.length">
+                                <li v-for="(konsul, konsulIndex) in selectedRiwayat.konsuls" :key="konsulIndex">
+                                    {{ formatDate(konsul.tanggal) }}
+                                </li>
+                            </ul>
+                            <p v-else>Tidak ada data konsul.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -262,9 +296,43 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ selectedRiwayat ? selectedRiwayat.namaKonsumen :
+                        '' }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Alamat: {{ selectedRiwayat ? selectedRiwayat.alamat : '' }}</p>
+                    <p>Kontak: {{ selectedRiwayat ? selectedRiwayat.kontak : '' }}</p>
+                    <p>Email: {{ selectedRiwayat ? selectedRiwayat.email : '' }}</p>
+                    <h5>Daftar Konsul:</h5>
+                    <ul v-if="selectedRiwayat && selectedRiwayat.konsuls && selectedRiwayat.konsuls.length">
+                        <li v-for="(konsul, konsulIndex) in selectedRiwayat.konsuls" :key="konsulIndex">
+                            {{ formatDate(konsul.tanggal) }}
+                        </li>
+                    </ul>
+                    <p v-else>Tidak ada data konsul.</p>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="../dist/vendor/jquery/jquery.min.js"></script>
     <script src="../dist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- vuejs -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="../dist/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -275,10 +343,55 @@
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../dist/js/demo/chart-area-demo.js"></script>
-    <script src="../dist/js/demo/chart-pie-demo.js"></script>
+    <script>
+        new Vue({
+            el: '#content-wrapper',
+            data: {
+                riwayatList: [],
+                selectedRiwayat: null
+            },
+            mounted() {
+                this.getDataFromApi();
+            },
+            created() {
+                const token = localStorage.getItem('token');
 
+                if (token) {
+                    this.isAuthenticated = true;
+                } else {
+                    this.isAuthenticated = false;
+                    window.location.href = './login.html';
+                }
+            },
+            methods: {
+                getDataFromApi() {
+                    const apiUrl = 'http://localhost:3000/api/konsumen';
+
+                    fetch(apiUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.riwayatList = data;
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                },
+                formatDate(dateString) {
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' }
+                    const formattedDate = new Date(dateString).toLocaleDateString('id-ID', options)
+                    console.log('Formatted Date:', formattedDate);
+                    return formattedDate
+                },
+                riwayatDetail(riwayat) {
+                    this.selectedRiwayat = riwayat;
+                    console.log('Data loaded successfully:', this.selectedRiwayat);
+                    $('#detail').modal('show')
+
+                    this.$nextTick(() => {
+                        $('#detail').modal('show')
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
