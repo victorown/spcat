@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const middleware = require("./midd");
 
 const { Cat, Kondisi } = require("../models");
 

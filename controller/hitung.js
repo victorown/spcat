@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const helper = require("./helper");
 const { Cat, Kondisi } = require("../models");
+const middleware = require("./midd");
 
-router.post("", async (req, res) => {
+router.post("", middleware, async (req, res) => {
   var model = req.body;
 
   try {
