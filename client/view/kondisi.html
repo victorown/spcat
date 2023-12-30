@@ -296,7 +296,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./view/login.html">Logout</a>
+                    <a class="btn btn-primary" href="./login.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -327,15 +327,16 @@
             el: '#content-wrapper',
             data: {
                 kondisiRumahList: [],
-                apiUrl: "http://localhost:3000/api/kondisi",
+                apiUrl: 'http://localhost:3000/api/kondisi',
                 kode: '',
-                nama: ''
+                nama: '',
+                token: ''
             },
             mounted() {
                 this.getDataFromApi();
             },
             created() {
-                const token = localStorage.getItem('token');
+                var token = localStorage.getItem('token');
 
                 if (token) {
                     this.isAuthenticated = true;
@@ -346,7 +347,17 @@
             },
             methods: {
                 getDataFromApi() {
-                    axios.get(this.apiUrl)
+
+                    this.token = localStorage.getItem('token')
+
+                    // console.log("Token: ", this.token);
+                    // console.log("Headers:", { 'Authorization': `Bearer ${this.token}` });
+
+                    axios.get(this.apiUrl, {
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`
+                        }
+                    })
                         .then(res => {
                             this.kondisiRumahList = res.data
                         })
