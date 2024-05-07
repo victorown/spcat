@@ -21,6 +21,7 @@
 
     <link href="../dist/css/sb-admin-2.min.css" rel="stylesheet">
 
+
 </head>
 
 <body id="page-top">
@@ -114,20 +115,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <!-- <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -319,6 +306,8 @@
     <!-- Custom scripts for all pages-->
     <script src="../dist/js/sb-admin-2.min.js"></script>
 
+    <script src="../dist/js/auths.js"></script>
+
     <script>
         new Vue({
             el: '#content-wrapper',
@@ -343,16 +332,7 @@
             methods: {
                 getDataFromApi() {
 
-
-                    sessionStorage.setItem('session', this.token)
-                    var session = sessionStorage.getItem('session')
-                    // console.log(data);
-
-                    var config = {
-                        Authorization: `bearer ${session}`
-                    }
-
-                    axios.get(this.apiUrl, config)
+                    axios.get(this.apiUrl, window.crtHeader())
                         .then(res => {
                             this.jenisCatList = res.data;
                         })
@@ -363,7 +343,7 @@
                         kode: this.kode,
                         nama: this.nama
                     }
-                    axios.post(this.apiUrl, data)
+                    axios.post(this.apiUrl, data, window.crtHeader())
                         .then(res => {
                             console.log(res.status);
                             $('#input').modal('hide')
@@ -376,7 +356,7 @@
                         })
                 },
                 delCat(id) {
-                    axios.delete(`http://localhost:3000/api/cat/${id}`)
+                    axios.delete(`http://localhost:3000/api/cat/${id}`, window.crtHeader())
                         .then(() => {
                             console.log(id);
                             this.jenisCatList = this.jenisCatList.filter(cat => cat.id !== id);

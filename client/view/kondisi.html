@@ -320,7 +320,7 @@
 
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
-
+    <script src="../dist/js/auths.js"></script>
 
     <script>
         new Vue({
@@ -348,16 +348,7 @@
             methods: {
                 getDataFromApi() {
 
-                    this.token = localStorage.getItem('token')
-
-                    // console.log("Token: ", this.token);
-                    // console.log("Headers:", { 'Authorization': `Bearer ${this.token}` });
-
-                    axios.get(this.apiUrl, {
-                        headers: {
-                            'Authorization': `Bearer ${this.token}`
-                        }
-                    })
+                    axios.get(this.apiUrl, window.crtHeader())
                         .then(res => {
                             this.kondisiRumahList = res.data
                         })
@@ -368,7 +359,7 @@
                         kode: this.kode,
                         nama: this.nama
                     }
-                    axios.post(this.apiUrl, data)
+                    axios.post(this.apiUrl, data, window.crtHeader())
                         .then(res => {
                             $('#input').modal('hide')
                             this.kondisiRumahList.push(res.data);
@@ -380,7 +371,7 @@
                         })
                 },
                 delKon(id) {
-                    axios.delete(`http://localhost:3000/api/kondisi/${id}`)
+                    axios.delete(`http://localhost:3000/api/kondisi/${id}`, window.crtHeader())
                         .then(() => {
                             console.log(id);
                             this.kondisiRumahList = this.kondisiRumahList.filter(kondisi => kondisi.id !== id);

@@ -254,7 +254,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Jenis Cat</label>
                                     <select class="custom-select" v-model="catId">
-                                        <option v-for="cat in pengetahuanList" :value="cat.id">
+                                        <option v-for="cat in catList" :value="cat.id">
                                             {{cat.nama}}</option>
                                     </select>
                                 </div>
@@ -329,7 +329,7 @@
 
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
-
+    <script src="../dist/js/auths.js"></script>
 
     <script>
         new Vue({
@@ -344,42 +344,79 @@
                 KondisiId: '',
                 catId: '',
                 cf: '',
-                token: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluMTcwIiwiaWF0IjoxNzAxODUyNTQ0LCJleHAiOjE3MDE5Mzg5NDR9.79HOHdvwDUJHpkH6oukTCU1yC5GENx1i9jTOm2VbweE',
+                token: localStorage.getItem('token')
             },
             mounted() {
                 this.getDataFromApi();
                 this.getDataKondisi();
                 this.getDataCat();
             },
+
+            created() {
+                if (this.token) {
+                    this.isAuthenticated = true;
+                } else {
+                    this.isAuthenticated = false;
+                    window.location.href = './login.html';
+                }
+            },
+
             methods: {
+
                 getDataFromApi() {
-                    axios.get(this.apiPenge, { headers: { Authorization: this.token }, withCredentials: true })
+                    axios.get(this.apiPenge, window.crtHeader())
                         .then(res => {
                             this.pengetahuanList = res.data;
                         })
                         .catch(err => console.error(err));
                 },
+
                 getDataKondisi() {
-                    axios.get(this.apiKondisi, { headers: { Authorization: this.token }, withCredentials: true })
+                    axios.get(this.apiKondisi, window.crtHeader())
                         .then(res => {
                             this.kondisiList = res.data;
                         })
                         .catch(err => console.error(err));
                 },
+
                 getDataCat() {
-                    axios.get(this.apiUrl, { headers: { Authorization: this.token }, withCredentials: true })
+                    axios.get(this.apiUrl, window.crtHeader())
                         .then(res => {
                             this.catList = res.data;
                         })
                         .catch(err => console.error(err));
                 },
+
                 getNamaCatById(catId) {
                     const dataCat = this.catList.find(item => item.id === catId);
                     return dataCat ? dataCat.nama : 'Cat tidak ditemukan';
                 },
+
                 getNamaKondisiById(KondisiId) {
                     const dataKondisi = this.kondisiList.find(item => item.id === KondisiId);
                     return dataKondisi ? dataKondisi.nama : 'Kondisi tidak ditemukan';
+                },
+
+                addPenge() {
+                    const data = {
+                        catId: this.catId,
+                        kondisiId: this.kondisiId,
+                        cf: this.cf
+                    }
+
+                    console.log(data);
+
+                    axios.post(this.apiPenge, data, window.crtHeader())
+                        .then(res => {
+                            $("#input").modal('hide')
+                            this.pengetahuanList.push(res.data)
+                            this.catId = ''
+                            this.kondisiId = ''
+                            this.cf = ''
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
                 },
             },
         });
