@@ -9,8 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
-
+    <!-- <title>SB Admin 2 - {{ title }}</title> -->
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -46,7 +45,8 @@
             <li class="nav-item active">
                 <a class="nav-link" href="../index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                    </a>
             </li>
 
             <!-- Divider -->
@@ -102,6 +102,7 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
+            <title-component :title="this.pageTitle"></title-component>
 
             <!-- Main Content -->
             <div id="content">
@@ -213,7 +214,7 @@
                                         <td>{{ getNamaCatById(pengetahuan.catId) }}</td>
                                         <td>{{ getNamaKondisiById(pengetahuan.KondisiId) }}</td>
                                         <td>{{ pengetahuan.cf }}</td>
-                                        <td><a href="" class="btn btn-warning mr-3">
+                                        <td><a href="" class="btn btn-warning mr-3" @click="editPenge(pengetahuan)" data-toggle="modal" data-target="#input">
                                                 <i class="fas fa-edit"></i></a>
                                             <a href="" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i></a>
@@ -244,7 +245,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Input Data Pengetahuan</h5>
+                            <h5 class="modal-title">{{ modalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -330,8 +331,10 @@
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
     <script src="../dist/js/auths.js"></script>
+    <script src="../dist/js/titleComponen.js"></script>
 
     <script>
+
         new Vue({
             el: '#content-wrapper',
             data: {
@@ -341,9 +344,12 @@
                 apiUrl: 'http://localhost:3000/api/cat',
                 apiKondisi: 'http://localhost:3000/api/kondisi',
                 apiPenge: 'http://localhost:3000/api/pengetahuan',
-                KondisiId: '',
-                catId: '',
-                cf: '',
+                id: 0,
+                KondisiId: 0,
+                catId: 0,
+                cf: 0,
+                pageTitle: 'Admin - Pengetahuan',
+                modalTitle: 'Add Data Pengetahuan',
                 token: localStorage.getItem('token')
             },
             mounted() {
@@ -351,7 +357,12 @@
                 this.getDataKondisi();
                 this.getDataCat();
             },
-
+            computed: {
+                getNamaCatById: function (catId) {
+                    const dataCat = this.catList.find(item => item.id === catId);
+                    return dataCat ? dataCat.nama : 'Cat tidak ditemukan';
+                },
+            },
             created() {
                 if (this.token) {
                     this.isAuthenticated = true;
@@ -399,25 +410,58 @@
 
                 addPenge() {
                     const data = {
+                        id: this.id,
                         catId: this.catId,
-                        kondisiId: this.kondisiId,
+                        KondisiId: this.KondisiId,
                         cf: this.cf
                     }
 
                     console.log(data);
 
-                    axios.post(this.apiPenge, data, window.crtHeader())
-                        .then(res => {
-                            $("#input").modal('hide')
-                            this.pengetahuanList.push(res.data)
-                            this.catId = ''
-                            this.kondisiId = ''
-                            this.cf = ''
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        })
+                    if (!data.id) {
+                        axios.post(this.apiPenge, data, window.crtHeader())
+                            .then(res => {
+                                $("#input").modal('hide')
+                                this.pengetahuanList.push(res.data)
+                                this.id = 0
+                                this.catId = 0
+                                this.KondisiId = 0
+                                this.cf = 0
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+                    } else {
+                        axios.put(this.apiPenge + '/' + data.id, data, window.crtHeader())
+                            .then(res => {
+                                $("#input").modal('hide')
+                                var res = this.pengetahuanList.find(x => x.Id == data.id);
+                                if (res) {
+                                    res.catId = data.catId
+                                    res.KondisiId = data.KondisiId
+                                    res.cf = data.cf
+                                }
+                                this.id = 0
+                                this.catId = 0
+                                this.KondisiId = 0
+                                this.cf = 0
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+                    }
+
                 },
+                editPenge(item) {
+                    this.modalTitle = 'Edit Data Pengetahuan'
+                    this.id = item.Id
+                    this.catId = item.catId
+                    this.KondisiId = item.KondisiId
+                    this.cf = item.cf
+                },
+                delPenge(id) {
+                    axios.del
+                }
             },
         });
     </script>

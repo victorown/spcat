@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <!-- <title>SB Admin 2 - Dashboard</title> -->
 
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -104,7 +104,7 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
+            <title-component :title="this.pageTitle"></title-component>
             <!-- Main Content -->
             <div id="content">
 
@@ -199,7 +199,7 @@
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ jenisCat.kode }}</td>
                                         <td>{{ jenisCat.nama }}</td>
-                                        <td><a href="" class="btn btn-warning mr-3">
+                                        <td><a href="" class="btn btn-warning mr-3" @click="editCat(jenisCat)" data-toggle="modal" data-target="#input">
                                                 <i class="fas fa-edit"></i></a>
                                             <a @click="delCat(jenisCat.id)" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i></a>
@@ -231,7 +231,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Input Data Cat</h5>
+                            <h5 class="modal-title">{{ modalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -307,6 +307,7 @@
     <script src="../dist/js/sb-admin-2.min.js"></script>
 
     <script src="../dist/js/auths.js"></script>
+    <script src="../dist/js/titleComponen.js"></script>
 
     <script>
         new Vue({
@@ -316,6 +317,9 @@
                 jenisCatList: [],
                 kode: '',
                 nama: '',
+                id: 0,
+                pageTitle: 'Admin - Cat',
+                modalTitle: 'Input Data Cat',
                 token: localStorage.getItem('token'),
             },
             mounted() {
@@ -340,21 +344,48 @@
                 },
                 addCat() {
                     const data = {
+                        id: this.id,
                         kode: this.kode,
                         nama: this.nama
                     }
-                    axios.post(this.apiUrl, data, window.crtHeader())
-                        .then(res => {
-                            console.log(res.status);
-                            $('#input').modal('hide')
-                            this.jenisCatList.push(res.data);
-                            this.kode = '';
-                            this.nama = '';
-                        })
-                        .catch(err => {
-                            console.error(err)
-                        })
+                    if (!data.id) {
+                        axios.post(this.apiUrl, data, window.crtHeader())
+                            .then(res => {
+                                console.log(res.status);
+                                $('#input').modal('hide')
+                                this.jenisCatList.push(res.data);
+                                this.id = 0;
+                                this.kode = '';
+                                this.nama = '';
+                            })
+                            .catch(err => {
+                                console.error(err)
+                            })
+                    } else {
+                        axios.put(this.apiUrl + '/' + data.id, data, window.crtHeader())
+                            .then(res => {
+                                $('#input').modal('hide')
+                                var res = this.jenisCatList.find(x => x.id == data.id)
+                                if (res) {
+                                    res.kode = data.kode
+                                    res.nama = data.nama
+                                }
+                                this.id = 0;
+                                this.kode = '';
+                                this.nama = '';
+                            })
+                            .catch(err => {
+                                console.error(err)
+                            })
+                    }
                 },
+                editCat(item) {
+                    this.modalTitle = 'Update Data Cat'
+                    this.id = item.id
+                    this.kode = item.kode;
+                    this.nama = item.nama;
+                },
+
                 delCat(id) {
                     axios.delete(`http://localhost:3000/api/cat/${id}`, window.crtHeader())
                         .then(() => {

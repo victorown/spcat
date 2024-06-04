@@ -9,8 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
-
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -102,7 +100,7 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
+            <title-component :title="this.pageTitle"></title-component>
             <!-- Main Content -->
             <div id="content">
 
@@ -211,7 +209,7 @@
                                         <td>{{index + 1}}</td>
                                         <td>{{kondisi.kode}}</td>
                                         <td>{{kondisi.nama}}</td>
-                                        <td><a href="" class="btn btn-warning mr-3">
+                                        <td><a href="" class="btn btn-warning mr-3" @click="editKon(kondisi)" data-toggle="modal" data-target="#input">
                                                 <i class="fas fa-edit"></i></a>
                                             <a @click="delKon(kondisi.id)" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i></a>
@@ -242,7 +240,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Input Data Kondisi</h5>
+                            <h5 class="modal-title">{{ modalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -250,13 +248,13 @@
                         <form @submit.prevent="addKon">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Kode Cat</label>
+                                    <label for="exampleInputEmail1">Kode Kondisi</label>
                                     <input v-model="kode" type="text" class="form-control"
                                         placeholder="Enter Paint Code" id="exampleInputEmail1"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Nama Cat</label>
+                                    <label for="exampleInputPassword1">Nama Kondisi</label>
                                     <input v-model="nama" type="text" class="form-control"
                                         placeholder="Enter Paint Name" id="exampleInputPassword1">
                                 </div>
@@ -321,6 +319,7 @@
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
     <script src="../dist/js/auths.js"></script>
+    <script src="../dist/js/titleComponen.js"></script>
 
     <script>
         new Vue({
@@ -328,9 +327,12 @@
             data: {
                 kondisiRumahList: [],
                 apiUrl: 'http://localhost:3000/api/kondisi',
+                id: 0,
                 kode: '',
                 nama: '',
-                token: ''
+                token: '',
+                pageTitle: 'Admin - Kondisi',
+                modalTitle: 'Input Data Kondisi',
             },
             mounted() {
                 this.getDataFromApi();
@@ -356,19 +358,46 @@
                 },
                 addKon() {
                     const data = {
+                        id: this.id,
                         kode: this.kode,
                         nama: this.nama
                     }
-                    axios.post(this.apiUrl, data, window.crtHeader())
-                        .then(res => {
-                            $('#input').modal('hide')
-                            this.kondisiRumahList.push(res.data);
-                            this.kode = '';
-                            this.nama = '';
-                        })
-                        .catch(err => {
-                            console.error(err)
-                        })
+                    if (!data.id) {
+                        axios.post(this.apiUrl, data, window.crtHeader())
+                            .then(res => {
+                                $('#input').modal('hide')
+                                this.kondisiRumahList.push(res.data);
+                                this.id = 0;
+                                this.kode = '';
+                                this.nama = '';
+                            })
+                            .catch(err => {
+                                console.error(err)
+                            })
+                    } else {
+                        axios.put(this.apiUrl + '/' + data.id, data, window.crtHeader())
+                            .then(res => {
+                                $('#input').modal('hide')
+                                var res = this.kondisiRumahList.find(x => x.id == data.id)
+                                if (res) {
+                                    res.kode = data.kode;
+                                    res.nama = data.nama;
+                                }
+                                this.id = 0;
+                                this.kode = '';
+                                this.nama = '';
+                            })
+                            .catch(err => {
+                                console.error(err)
+                            })
+                    }
+                },
+
+                editKon(item) {
+                    this.modalTitle = 'Update Data Kondisi'
+                    this.id = item.id;
+                    this.kode = item.kode;
+                    this.nama = item.nama;
                 },
                 delKon(id) {
                     axios.delete(`http://localhost:3000/api/kondisi/${id}`, window.crtHeader())

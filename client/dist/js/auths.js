@@ -1,5 +1,5 @@
 window.crtHeader = () => {
-  var session = sessionStorage.getItem("token");
+  var session = localStorage.getItem("token");
   console.log(session);
   var auth = "bearer " + session;
   var config = {
@@ -14,7 +14,7 @@ window.crtHeader = () => {
 };
 
 window.getToken = () => {
-  var session = sessionStorage.getItem("token");
+  var session = localStorage.getItem("token");
 
   return "bearer " + session;
 };
