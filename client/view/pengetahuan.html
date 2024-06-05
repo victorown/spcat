@@ -46,7 +46,7 @@
                 <a class="nav-link" href="../index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
-                    </a>
+                </a>
             </li>
 
             <!-- Divider -->
@@ -216,7 +216,7 @@
                                         <td>{{ pengetahuan.cf }}</td>
                                         <td><a href="" class="btn btn-warning mr-3" @click="editPenge(pengetahuan)" data-toggle="modal" data-target="#input">
                                                 <i class="fas fa-edit"></i></a>
-                                            <a href="" class="btn btn-danger">
+                                            <a href="" class="btn btn-danger" @click="delPenge(pengetahuan.Id)">
                                                 <i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
@@ -334,7 +334,6 @@
     <script src="../dist/js/titleComponen.js"></script>
 
     <script>
-
         new Vue({
             el: '#content-wrapper',
             data: {
@@ -416,8 +415,6 @@
                         cf: this.cf
                     }
 
-                    console.log(data);
-
                     if (!data.id) {
                         axios.post(this.apiPenge, data, window.crtHeader())
                             .then(res => {
@@ -460,7 +457,9 @@
                     this.cf = item.cf
                 },
                 delPenge(id) {
-                    axios.del
+                    axios.delete(this.apiPenge + '/' + id, window.crtHeader()).then(() => {
+                        this.pengetahuanList = this.pengetahuanList.filter(penge => penge.Id !== id);
+                    })
                 }
             },
         });

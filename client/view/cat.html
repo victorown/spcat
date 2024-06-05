@@ -307,7 +307,6 @@
     <script src="../dist/js/sb-admin-2.min.js"></script>
 
     <script src="../dist/js/auths.js"></script>
-    <script src="../dist/js/titleComponen.js"></script>
 
     <script>
         new Vue({
@@ -351,7 +350,6 @@
                     if (!data.id) {
                         axios.post(this.apiUrl, data, window.crtHeader())
                             .then(res => {
-                                console.log(res.status);
                                 $('#input').modal('hide')
                                 this.jenisCatList.push(res.data);
                                 this.id = 0;
@@ -389,7 +387,6 @@
                 delCat(id) {
                     axios.delete(`http://localhost:3000/api/cat/${id}`, window.crtHeader())
                         .then(() => {
-                            console.log(id);
                             this.jenisCatList = this.jenisCatList.filter(cat => cat.id !== id);
                         })
                 }

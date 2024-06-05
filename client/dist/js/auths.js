@@ -18,3 +18,9 @@ window.getToken = () => {
 
   return "bearer " + session;
 };
+
+// component vue
+Vue.component('title-component', {
+  template: '<title>{{ title }}</title>',
+  props: ['title'],
+})

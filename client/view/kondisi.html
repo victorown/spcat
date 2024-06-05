@@ -402,7 +402,6 @@
                 delKon(id) {
                     axios.delete(`http://localhost:3000/api/kondisi/${id}`, window.crtHeader())
                         .then(() => {
-                            console.log(id);
                             this.kondisiRumahList = this.kondisiRumahList.filter(kondisi => kondisi.id !== id);
                         })
                 }
