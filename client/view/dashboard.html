@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <!-- <title>SB Admin 2 - Dashboard</title> -->
 
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -43,7 +43,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -83,7 +83,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/admin/riwayat">
                     <i class="fas fa-fw fa-history"></i>
                     <span>Riwayat</span></a>
@@ -101,8 +101,8 @@
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
+        <div id="content-wrapper" class="d-flex flex-column" v-if="isAuthenticated">
+            <title-component title="Admin - Dashboard"></title-component>
             <!-- Main Content -->
             <div id="content">
 
@@ -113,20 +113,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <!-- <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -182,37 +168,70 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <div class="row mb-4">
-                        <div class="col">
-                            <h1>Riwayat Konsultasi</h1>
-                        </div>
-                    </div>
                     <div class="row">
-                        <div class="col">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nama Konsumen</th>
-                                        <th>Alamat</th>
-                                        <th>Kontak</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(riwayat, index) in riwayatList" :key="index">
-                                        <td>{{ index + 1}}</td>
-                                        <td>{{ riwayat.namaKonsumen}}</td>
-                                        <td>{{ riwayat.alamat}}</td>
-                                        <td>{{ riwayat.kontak}}</td>
-                                        <td>
-                                            <a href="" class="btn btn-info" data-toggle="modal" data-target="#detail"
-                                                @click="riwayatDetail(riwayat)">
-                                                <i class="fas fa-info"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Jenis Cat</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-fill fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Kondisi Rumah</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-home fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-s text-uppercase mb-1">
+                                                Basis Pengetahuan</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-book-open fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Riwayat</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-history fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -232,89 +251,24 @@
             </footer>
             <!-- End of Footer -->
 
-            <!-- Modal detail -->
-            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ selectedRiwayat ?
-                                selectedRiwayat.namaKonsumen
-                                :
-                                '' }}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <p>Alamat: {{ selectedRiwayat ? selectedRiwayat.alamat : '' }}</p>
-                            <p>Kontak: {{ selectedRiwayat ? selectedRiwayat.kontak : '' }}</p>
-                            <p>Email: {{ selectedRiwayat ? selectedRiwayat.email : '' }}</p>
-                            <h5>Daftar Konsul:</h5>
-                            <ul v-if="selectedRiwayat && selectedRiwayat.konsuls && selectedRiwayat.konsuls.length">
-                                <li v-for="(konsul, konsulIndex) in selectedRiwayat.konsuls" :key="konsulIndex">
-                                    {{ formatDate(konsul.tanggal) }}
-                                </li>
-                            </ul>
-                            <p v-else>Tidak ada data konsul.</p>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.
                         </div>
                         <div class="modal-footer">
-                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button> -->
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" @click="logout">Logout</a>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ selectedRiwayat ? selectedRiwayat.namaKonsumen
-                            :
-                            '' }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Alamat: {{ selectedRiwayat ? selectedRiwayat.alamat : '' }}</p>
-                        <p>Kontak: {{ selectedRiwayat ? selectedRiwayat.kontak : '' }}</p>
-                        <p>Email: {{ selectedRiwayat ? selectedRiwayat.email : '' }}</p>
-                        <h5>Daftar Konsul:</h5>
-                        <ul v-if="selectedRiwayat && selectedRiwayat.konsuls && selectedRiwayat.konsuls.length">
-                            <li v-for="(konsul, konsulIndex) in selectedRiwayat.konsuls" :key="konsulIndex">
-                                {{ formatDate(konsul.tanggal) }}
-                            </li>
-                        </ul>
-                        <p v-else>Tidak ada data konsul.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" @click="logout">Logout</a>
                     </div>
                 </div>
             </div>
@@ -329,12 +283,11 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="../dist/vendor/jquery/jquery.min.js"></script>
     <script src="../dist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- vuejs -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="../dist/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -345,59 +298,34 @@
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
 
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../dist/js/auths.js"></script>
+
     <script>
         new Vue({
             el: '#wrapper',
             data: {
-                riwayatList: [],
-                selectedRiwayat: null
-            },
-            mounted() {
-                this.getDataFromApi();
+                isAuthenticated: false,
             },
             created() {
                 const token = localStorage.getItem('token');
-
                 if (token) {
                     this.isAuthenticated = true;
                 } else {
                     this.isAuthenticated = false;
-                    window.location.href = '/login';
+                    window.location.href = './view/login.html';
                 }
             },
             methods: {
-                getDataFromApi() {
-                    const apiUrl = 'http://localhost:3000/api/konsumen';
-
-                    fetch(apiUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            this.riwayatList = data;
-                        })
-                        .catch(error => console.error('Error fetching data:', error));
-                },
-                formatDate(dateString) {
-                    const options = { year: 'numeric', month: 'long', day: 'numeric' }
-                    const formattedDate = new Date(dateString).toLocaleDateString('id-ID', options)
-                    console.log('Formatted Date:', formattedDate);
-                    return formattedDate
-                },
-                riwayatDetail(riwayat) {
-                    this.selectedRiwayat = riwayat;
-                    console.log('Data loaded successfully:', this.selectedRiwayat);
-                    $('#detail').modal('show')
-
-                    this.$nextTick(() => {
-                        $('#detail').modal('show')
-                    });
-                },
-
                 logout() {
                     localStorage.removeItem('token');
                     window.location.href = '/login';
                 }
-
-            }
+            },
         });
     </script>
 </body>

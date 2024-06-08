@@ -96,7 +96,7 @@
 
                 if (token) {
                     this.isAuthenticated = true;
-                    window.location.href = '../index.html';
+                    window.location.href = '/admin/dashboard';
                 } else {
                     this.isAuthenticated = false;
                 }
@@ -119,7 +119,7 @@
 
                             localStorage.setItem('token', token);
 
-                            window.location.href = 'http://localhost:3000/index.html';
+                            window.location.href = '/admin/dashboard';
                         })
                         .catch(error => {
                             console.error('Login failed:', error);
