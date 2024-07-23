@@ -32,7 +32,7 @@
             id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,8 +43,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="../index.html">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -59,17 +59,17 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="./cat.html">
+                <a class="nav-link" href="/admin/cat">
                     <i class="fas fa-fw fa-fill"></i>
                     <span>Jenis Cat</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./kondisi.html">
+                <a class="nav-link" href="/admin/kondisi">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Kondisi Rumah</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./pengetahuan.html">
+                <a class="nav-link" href="/admin/pengetahuan">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>Basis Pengetahuan</span></a>
             </li>
@@ -83,8 +83,8 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link" href="./riwayat.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/riwayat">
                     <i class="fas fa-fw fa-history"></i>
                     <span>Riwayat</span></a>
             </li>
@@ -266,6 +266,59 @@
             </div>
 
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ selectedRiwayat ? selectedRiwayat.namaKonsumen
+                            :
+                            '' }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Alamat: {{ selectedRiwayat ? selectedRiwayat.alamat : '' }}</p>
+                        <p>Kontak: {{ selectedRiwayat ? selectedRiwayat.kontak : '' }}</p>
+                        <p>Email: {{ selectedRiwayat ? selectedRiwayat.email : '' }}</p>
+                        <h5>Daftar Konsul:</h5>
+                        <ul v-if="selectedRiwayat && selectedRiwayat.konsuls && selectedRiwayat.konsuls.length">
+                            <li v-for="(konsul, konsulIndex) in selectedRiwayat.konsuls" :key="konsulIndex">
+                                {{ formatDate(konsul.tanggal) }}
+                            </li>
+                        </ul>
+                        <p v-else>Tidak ada data konsul.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" @click="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- End of Content Wrapper -->
 
     </div>
@@ -275,57 +328,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./view/login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ selectedRiwayat ? selectedRiwayat.namaKonsumen :
-                        '' }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Alamat: {{ selectedRiwayat ? selectedRiwayat.alamat : '' }}</p>
-                    <p>Kontak: {{ selectedRiwayat ? selectedRiwayat.kontak : '' }}</p>
-                    <p>Email: {{ selectedRiwayat ? selectedRiwayat.email : '' }}</p>
-                    <h5>Daftar Konsul:</h5>
-                    <ul v-if="selectedRiwayat && selectedRiwayat.konsuls && selectedRiwayat.konsuls.length">
-                        <li v-for="(konsul, konsulIndex) in selectedRiwayat.konsuls" :key="konsulIndex">
-                            {{ formatDate(konsul.tanggal) }}
-                        </li>
-                    </ul>
-                    <p v-else>Tidak ada data konsul.</p>
-                </div>
-                <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button> -->
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../dist/vendor/jquery/jquery.min.js"></script>
@@ -345,7 +347,7 @@
 
     <script>
         new Vue({
-            el: '#content-wrapper',
+            el: '#wrapper',
             data: {
                 riwayatList: [],
                 selectedRiwayat: null
@@ -360,7 +362,7 @@
                     this.isAuthenticated = true;
                 } else {
                     this.isAuthenticated = false;
-                    window.location.href = './login.html';
+                    window.location.href = '/login';
                 }
             },
             methods: {
@@ -388,7 +390,13 @@
                     this.$nextTick(() => {
                         $('#detail').modal('show')
                     });
+                },
+
+                logout() {
+                    localStorage.removeItem('token');
+                    window.location.href = '/login';
                 }
+
             }
         });
     </script>

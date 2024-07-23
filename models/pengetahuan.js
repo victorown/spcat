@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Pengetahuan.init(
     {
+      Id: DataTypes.INTEGER,
       cf: DataTypes.DOUBLE,
       catId: DataTypes.INTEGER,
       KondisiId: DataTypes.INTEGER,

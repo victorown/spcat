@@ -2,39 +2,31 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <!-- <title>SB Admin 2 - Dashboard</title> -->
 
-    <title>SB Admin 2 - Dashboard</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+        rel="stylesheet" />
 
-    <!-- Custom styles for this template-->
-
-    <link href="../dist/css/sb-admin-2.min.css" rel="stylesheet">
-
-
+    <link href="../dist/css/sb-admin-2.min.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
-        <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: rgb(247, 135, 43);"
+        <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: rgb(247, 135, 43)"
             id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -42,75 +34,66 @@
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider my-0" />
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="../index.html">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider" />
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                Input
-            </div>
+            <div class="sidebar-heading">Input</div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link" href="./cat.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/cat">
                     <i class="fas fa-fw fa-fill"></i>
                     <span>Jenis Cat</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./kondisi.html">
+                <a class="nav-link" href="/admin/kondisi">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Kondisi Rumah</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./pengetahuan.html">
+                <a class="nav-link" href="/admin/pengetahuan">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>Basis Pengetahuan</span></a>
             </li>
 
-
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <hr class="sidebar-divider d-none d-md-block" />
 
-            <div class="sidebar-heading">
-                Data
-            </div>
+            <div class="sidebar-heading">Data</div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="./riwayat.html">
-                    <i class="fas fa-fw fa-history"></i>
+                <a class="nav-link" href="/admin/riwayat">
+                    <i class="fas fa-fw fa/-history"></i>
                     <span>Riwayat</span></a>
             </li>
 
-            <hr class="sidebar-divider d-none d-md-block">
+            <hr class="sidebar-divider d-none d-md-block" />
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
         </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
+            <title-component :title="this.pageTitle"></title-component>
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -118,7 +101,6 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
@@ -132,7 +114,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small"
                                             placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
+                                            aria-describedby="basic-addon2" />
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -143,7 +125,6 @@
                             </div>
                         </li>
 
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -151,7 +132,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle" src="../dist/img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="../dist/img/undraw_profile.svg" />
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -162,9 +143,7 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
@@ -199,7 +178,9 @@
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ jenisCat.kode }}</td>
                                         <td>{{ jenisCat.nama }}</td>
-                                        <td><a href="" class="btn btn-warning mr-3">
+                                        <td>
+                                            <a href="" class="btn btn-warning mr-3" @click="editCat(jenisCat)"
+                                                data-toggle="modal" data-target="#input">
                                                 <i class="fas fa-edit"></i></a>
                                             <a @click="delCat(jenisCat.id)" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i></a>
@@ -209,10 +190,8 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -231,7 +210,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Input Data Cat</h5>
+                            <h5 class="modal-title">{{ modalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -242,17 +221,19 @@
                                     <label for="exampleInputEmail1">Kode Cat</label>
                                     <input v-model="kode" type="text" class="form-control"
                                         placeholder="Enter Paint Code" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" />
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Nama Cat</label>
                                     <input v-model="nama" type="text" class="form-control"
-                                        placeholder="Enter Paint Name" id="exampleInputPassword1">
+                                        placeholder="Enter Paint Name" id="exampleInputPassword1" />
                                 </div>
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
                                 <button class="btn btn-primary">Save</button>
                             </div>
                         </form>
@@ -262,6 +243,32 @@
         </div>
         <!-- End of Content Wrapper -->
 
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Ready to Leave?
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Select "Logout" below if you are ready to end your current
+                        session.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <a class="btn btn-primary" @click="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- End of Page Wrapper -->
 
@@ -269,26 +276,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./view/login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- vuejs -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
@@ -310,13 +297,16 @@
 
     <script>
         new Vue({
-            el: '#content-wrapper',
+            el: "#wrapper",
             data: {
                 apiUrl: "http://localhost:3000/api/cat",
                 jenisCatList: [],
-                kode: '',
-                nama: '',
-                token: localStorage.getItem('token'),
+                kode: "",
+                nama: "",
+                id: 0,
+                pageTitle: "Admin - Cat",
+                modalTitle: "Input Data Cat",
+                token: localStorage.getItem("token"),
             },
             mounted() {
                 this.getDataFromApi();
@@ -326,47 +316,80 @@
                     this.isAuthenticated = true;
                 } else {
                     this.isAuthenticated = false;
-                    window.location.href = './login.html';
+                    window.location.href = "/login";
                 }
             },
             methods: {
                 getDataFromApi() {
-
-                    axios.get(this.apiUrl, window.crtHeader())
-                        .then(res => {
+                    axios
+                        .get(this.apiUrl, window.crtHeader())
+                        .then((res) => {
                             this.jenisCatList = res.data;
                         })
-                        .catch(error => console.error('Error get data:', error));
+                        .catch((error) => console.error("Error get data:", error));
                 },
                 addCat() {
                     const data = {
+                        id: this.id,
                         kode: this.kode,
-                        nama: this.nama
+                        nama: this.nama,
+                    };
+                    if (!data.id) {
+                        axios
+                            .post(this.apiUrl, data, window.crtHeader())
+                            .then((res) => {
+                                $("#input").modal("hide");
+                                this.jenisCatList.push(res.data);
+                                this.id = 0;
+                                this.kode = "";
+                                this.nama = "";
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    } else {
+                        axios
+                            .put(this.apiUrl + "/" + data.id, data, window.crtHeader())
+                            .then((res) => {
+                                $("#input").modal("hide");
+                                var res = this.jenisCatList.find((x) => x.id == data.id);
+                                if (res) {
+                                    res.kode = data.kode;
+                                    res.nama = data.nama;
+                                }
+                                this.id = 0;
+                                this.kode = "";
+                                this.nama = "";
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            });
                     }
-                    axios.post(this.apiUrl, data, window.crtHeader())
-                        .then(res => {
-                            console.log(res.status);
-                            $('#input').modal('hide')
-                            this.jenisCatList.push(res.data);
-                            this.kode = '';
-                            this.nama = '';
-                        })
-                        .catch(err => {
-                            console.error(err)
-                        })
                 },
+                editCat(item) {
+                    this.modalTitle = "Update Data Cat";
+                    this.id = item.id;
+                    this.kode = item.kode;
+                    this.nama = item.nama;
+                },
+
                 delCat(id) {
-                    axios.delete(`http://localhost:3000/api/cat/${id}`, window.crtHeader())
+                    axios
+                        .delete(`http://localhost:3000/api/cat/${id}`, window.crtHeader())
                         .then(() => {
-                            console.log(id);
-                            this.jenisCatList = this.jenisCatList.filter(cat => cat.id !== id);
-                        })
-                }
-            }
+                            this.jenisCatList = this.jenisCatList.filter(
+                                (cat) => cat.id !== id
+                            );
+                        });
+                },
+
+                logout() {
+                    localStorage.removeItem("token");
+                    window.location.href = "/login";
+                },
+            },
         });
     </script>
-
-
 </body>
 
 </html>

@@ -9,8 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
-
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -32,7 +30,8 @@
             id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,8 +42,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="../index.html">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -59,17 +58,17 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="./cat.html">
+                <a class="nav-link" href="/admin/cat">
                     <i class="fas fa-fw fa-fill"></i>
                     <span>Jenis Cat</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="./kondisi.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/kondisi">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Kondisi Rumah</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./pengetahuan.html">
+                <a class="nav-link" href="/admin/pengetahuan">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>Basis Pengetahuan</span></a>
             </li>
@@ -84,8 +83,8 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="./riwayat.html">
-                    <i class="fas fa-fw fa-history"></i>
+                <a class="nav-link" href="/admin/riwayat">
+                    <i class="fas fa-fw fa/-history"></i>
                     <span>Riwayat</span></a>
             </li>
 
@@ -102,7 +101,7 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
+            <title-component :title="this.pageTitle"></title-component>
             <!-- Main Content -->
             <div id="content">
 
@@ -211,7 +210,8 @@
                                         <td>{{index + 1}}</td>
                                         <td>{{kondisi.kode}}</td>
                                         <td>{{kondisi.nama}}</td>
-                                        <td><a href="" class="btn btn-warning mr-3">
+                                        <td><a href="" class="btn btn-warning mr-3" @click="editKon(kondisi)"
+                                                data-toggle="modal" data-target="#input">
                                                 <i class="fas fa-edit"></i></a>
                                             <a @click="delKon(kondisi.id)" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i></a>
@@ -242,7 +242,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Input Data Kondisi</h5>
+                            <h5 class="modal-title">{{ modalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -250,13 +250,13 @@
                         <form @submit.prevent="addKon">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Kode Cat</label>
+                                    <label for="exampleInputEmail1">Kode Kondisi</label>
                                     <input v-model="kode" type="text" class="form-control"
                                         placeholder="Enter Paint Code" id="exampleInputEmail1"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Nama Cat</label>
+                                    <label for="exampleInputPassword1">Nama Kondisi</label>
                                     <input v-model="nama" type="text" class="form-control"
                                         placeholder="Enter Paint Name" id="exampleInputPassword1">
                                 </div>
@@ -274,6 +274,25 @@
         </div>
         <!-- End of Content Wrapper -->
 
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" @click="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- End of Page Wrapper -->
 
@@ -281,26 +300,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- vuejs -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
@@ -321,16 +320,20 @@
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
     <script src="../dist/js/auths.js"></script>
+    <script src="../dist/js/titleComponen.js"></script>
 
     <script>
         new Vue({
-            el: '#content-wrapper',
+            el: '#wrapper',
             data: {
                 kondisiRumahList: [],
                 apiUrl: 'http://localhost:3000/api/kondisi',
+                id: 0,
                 kode: '',
                 nama: '',
-                token: ''
+                token: '',
+                pageTitle: 'Admin - Kondisi',
+                modalTitle: 'Input Data Kondisi',
             },
             mounted() {
                 this.getDataFromApi();
@@ -342,7 +345,7 @@
                     this.isAuthenticated = true;
                 } else {
                     this.isAuthenticated = false;
-                    window.location.href = './login.html';
+                    window.location.href = '/login';
                 }
             },
             methods: {
@@ -356,27 +359,59 @@
                 },
                 addKon() {
                     const data = {
+                        id: this.id,
                         kode: this.kode,
                         nama: this.nama
                     }
-                    axios.post(this.apiUrl, data, window.crtHeader())
-                        .then(res => {
-                            $('#input').modal('hide')
-                            this.kondisiRumahList.push(res.data);
-                            this.kode = '';
-                            this.nama = '';
-                        })
-                        .catch(err => {
-                            console.error(err)
-                        })
+                    if (!data.id) {
+                        axios.post(this.apiUrl, data, window.crtHeader())
+                            .then(res => {
+                                $('#input').modal('hide')
+                                this.kondisiRumahList.push(res.data);
+                                this.id = 0;
+                                this.kode = '';
+                                this.nama = '';
+                            })
+                            .catch(err => {
+                                console.error(err)
+                            })
+                    } else {
+                        axios.put(this.apiUrl + '/' + data.id, data, window.crtHeader())
+                            .then(res => {
+                                $('#input').modal('hide')
+                                var res = this.kondisiRumahList.find(x => x.id == data.id)
+                                if (res) {
+                                    res.kode = data.kode;
+                                    res.nama = data.nama;
+                                }
+                                this.id = 0;
+                                this.kode = '';
+                                this.nama = '';
+                            })
+                            .catch(err => {
+                                console.error(err)
+                            })
+                    }
+                },
+
+                editKon(item) {
+                    this.modalTitle = 'Update Data Kondisi'
+                    this.id = item.id;
+                    this.kode = item.kode;
+                    this.nama = item.nama;
                 },
                 delKon(id) {
                     axios.delete(`http://localhost:3000/api/kondisi/${id}`, window.crtHeader())
                         .then(() => {
-                            console.log(id);
                             this.kondisiRumahList = this.kondisiRumahList.filter(kondisi => kondisi.id !== id);
                         })
+                },
+
+                logout() {
+                    localStorage.removeItem('token');
+                    window.location.href = '/login';
                 }
+
             }
         });
     </script>

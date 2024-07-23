@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./dist/css/style.css">
+    <!-- vuejs -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    }
+                },
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-if="!showAdditionalForm" class="relative h-screen bg-cover bg-[center_bottom_-11rem]"
+            style="background-image: url('../dist/img/front-bg.jpg');">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="relative z-10 flex flex-col justify-center items-center h-full p-4 text-center text-white">
+                <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">silahkan masukan data diri anda</h1>
+                <form
+                    class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay"
+                    @submit.prevent="submitFormData">
+                    <div class="mb-4">
+                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="nama">
+                            Nama
+                        </label>
+                        <input v-model="formData.nama"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="nama" type="text" placeholder="Nama">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="alamat">
+                            Alamat
+                        </label>
+                        <input v-model="formData.alamat"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="alamat" type="text" placeholder="Alamat">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="kontak">
+                            Kontak
+                        </label>
+                        <input v-model="formData.kontak"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="kontak" type="text" placeholder="Kontak">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="email">
+                            Email
+                        </label>
+                        <input v-model="formData.email"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="email" type="email" placeholder="Email">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button
+                            class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="submit">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div v-if="showAdditionalForm"
+            class="flex flex-col justify-center items-center h-full p-4 text-center text-white">
+            <form
+                class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay bg-gray-700">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas maxime ipsa repellat consequatur
+                    corporis cum itaque voluptates id, laborum animi. Sapiente, praesentium tempore nisi esse quod vero
+                    iusto reprehenderit id!50</p>
+            </form>
+        </div>
+    </div>
+
+    <script src="../dist/js/vue-konsul.js" type="text/javascript"></script>
+
+</body>
+
+
+</html>
