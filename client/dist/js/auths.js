@@ -1,6 +1,5 @@
 window.crtHeader = () => {
   var session = localStorage.getItem("token");
-  console.log(session);
   var auth = "bearer " + session;
   var config = {
     headers: {
@@ -8,19 +7,17 @@ window.crtHeader = () => {
     },
   };
 
-  console.log(config);
-
   return config;
 };
 
 window.getToken = () => {
   var session = localStorage.getItem("token");
 
-  return "bearer " + session;
+  return {
+    bearerToken: "bearer " + session,
+    plainToken: session
+  };
 };
 
 // component vue
-Vue.component('title-component', {
-  template: '<title>{{ title }}</title>',
-  props: ['title'],
-})
+

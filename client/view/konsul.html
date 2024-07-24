@@ -13,7 +13,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="./dist/css/style.css">
     <!-- vuejs -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16"></script>
 
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -40,40 +40,44 @@
                 <form
                     class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay"
                     @submit.prevent="submitFormData">
-                    <div class="mb-4">
-                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="nama">
+                    <div class="mb-4 flex flex-col justify-start w-full">
+                        <label class="text-left text-gray-700 text-sm font-bold mb-2" for="nama">
                             Nama
                         </label>
                         <input v-model="formData.nama"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="nama" type="text" placeholder="Nama">
+                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                            id="nama" type="text" placeholder="Nama" required>
+                        <span v-if="!formData.nama" class="mt-2 text-pink-600 text-sm text-start font-bold">Name is required</span>
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-4 flex flex-col justify-start w-full">
                         <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="alamat">
                             Alamat
                         </label>
-                        <input v-model="formData.alamat"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        <input required v-model="formData.alamat"
+                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="alamat" type="text" placeholder="Alamat">
+                            <span v-if="!formData.alamat" class="mt-2 text-pink-600 text-sm text-start font-bold">Address is required</span>
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-4 flex flex-col justify-start w-full">
                         <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="kontak">
                             Kontak
                         </label>
-                        <input v-model="formData.kontak"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="kontak" type="text" placeholder="Kontak">
+                        <input required v-model="formData.kontak"
+                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="kontak" type="number" placeholder="Kontak">
+                            <span v-if="!formData.kontak" class="mt-2 text-pink-600 text-sm text-start font-bold">Contact number is required</span>
                     </div>
-                    <div class="mb-6">
+                    <div class="mb-6 flex flex-col justify-start w-full">
                         <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="email">
                             Email
                         </label>
-                        <input v-model="formData.email"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        <input required v-model="formData.email"
+                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="email" type="email" placeholder="Email">
+                            <span v-if="!formData.email" class="mt-2 text-pink-600 text-sm text-start font-bold">Email is required</span>
                     </div>
                     <div class="flex items-center justify-between">
-                        <button
+                        <button 
                             class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             type="submit">
                             Submit
@@ -90,11 +94,12 @@
                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas maxime ipsa repellat consequatur
                     corporis cum itaque voluptates id, laborum animi. Sapiente, praesentium tempore nisi esse quod vero
                     iusto reprehenderit id!50</p>
+                    {{ formData }}
             </form>
         </div>
     </div>
 
-    <script src="../dist/js/vue-konsul.js" type="text/javascript"></script>
+    <script src="../dist/js/konsulController.js" type="text/javascript"></script>
 
 </body>
 

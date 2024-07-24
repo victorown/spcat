@@ -16,6 +16,10 @@
         rel="stylesheet" />
 
     <link href="../dist/css/sb-admin-2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    
 </head>
 
 <body id="page-top">
@@ -76,6 +80,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
             <title-component :title="this.pageTitle"></title-component>
             <div id="content">
+                <!-- header -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -252,109 +257,14 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <script src="../dist/vendor/jquery/jquery.min.js"></script>
     <script src="../dist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../dist/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../dist/js/sb-admin-2.min.js"></script>
     <script src="../dist/js/auths.js"></script>
-    <script>
-        new Vue({
-            el: "#wrapper",
-            data: {
-                apiUrl: "http://localhost:3000/api/cat",
-                jenisCatList: [],
-                kode: "",
-                nama: "",
-                id: 0,
-                pageTitle: "Admin - Cat",
-                modalTitle: "Input Data Cat",
-                token: localStorage.getItem("token"),
-            },
-            mounted() {
-                this.getDataFromApi();
-            },
-            created() {
-                if (this.token) {
-                    this.isAuthenticated = true;
-                } else {
-                    this.isAuthenticated = false;
-                    window.location.href = "/login";
-                }
-            },
-            methods: {
-                getDataFromApi() {
-                    axios
-                        .get(this.apiUrl, window.crtHeader())
-                        .then((res) => {
-                            this.jenisCatList = res.data;
-                        })
-                        .catch((error) => console.error("Error get data:", error));
-                },
-                addCat() {
-                    const data = {
-                        id: this.id,
-                        kode: this.kode,
-                        nama: this.nama,
-                    };
-                    if (!data.id) {
-                        axios
-                            .post(this.apiUrl, data, window.crtHeader())
-                            .then((res) => {
-                                $("#input").modal("hide");
-                                this.jenisCatList.push(res.data);
-                                this.id = 0;
-                                this.kode = "";
-                                this.nama = "";
-                            })
-                            .catch((err) => {
-                                console.error(err);
-                            });
-                    } else {
-                        axios
-                            .put(this.apiUrl + "/" + data.id, data, window.crtHeader())
-                            .then((res) => {
-                                $("#input").modal("hide");
-                                var res = this.jenisCatList.find((x) => x.id == data.id);
-                                if (res) {
-                                    res.kode = data.kode;
-                                    res.nama = data.nama;
-                                }
-                                this.id = 0;
-                                this.kode = "";
-                                this.nama = "";
-                            })
-                            .catch((err) => {
-                                console.error(err);
-                            });
-                    }
-                },
-                editCat(item) {
-                    this.modalTitle = "Update Data Cat";
-                    this.id = item.id;
-                    this.kode = item.kode;
-                    this.nama = item.nama;
-                },
-
-                delCat(id) {
-                    axios
-                        .delete(`http://localhost:3000/api/cat/${id}`, window.crtHeader())
-                        .then(() => {
-                            this.jenisCatList = this.jenisCatList.filter(
-                                (cat) => cat.id !== id
-                            );
-                        });
-                },
-
-                logout() {
-                    localStorage.removeItem("token");
-                    window.location.href = "/login";
-                },
-            },
-        });
-    </script>
+    <script src="../dist/js/catController.js"></script>
+    
 </body>
 
 </html>
