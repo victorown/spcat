@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const middleware = require("./midd");
 
 const { Konsumen, konsul } = require("../models");
 
 // GET all konsumen
-router.get("/", middleware, async (req, res) => {
+router.get("/",  async (req, res) => {
   try {
     const customers = await Konsumen.findAll({ include: konsul });
     res.json(customers);
@@ -18,7 +17,7 @@ router.get("/", middleware, async (req, res) => {
 });
 
 // GET a konsumen by ID
-router.get("/:id", middleware, async (req, res) => {
+router.get("/:id",  async (req, res) => {
   let id = req.params.id;
   try {
     const customers = await Konsumen.findOne({ idkonsument: id });
@@ -32,7 +31,7 @@ router.get("/:id", middleware, async (req, res) => {
 });
 
 // POST create a new konsumen
-router.post("", middleware, async (req, res) => {
+router.post("",  async (req, res) => {
   var model = req.body;
 
   try {
@@ -53,7 +52,7 @@ router.post("", middleware, async (req, res) => {
 });
 
 // PUT update a konsumen by ID
-router.put("/:id", middleware, async (req, res) => {
+router.put("/:id",  async (req, res) => {
   let id = req.params.id;
   var updatedModel = req.body;
 
@@ -78,7 +77,7 @@ router.put("/:id", middleware, async (req, res) => {
 });
 
 // DELETE a konsumen by ID
-router.delete("/:id", middleware, async (req, res) => {
+router.delete("/:id",  async (req, res) => {
   let id = req.params.id;
 
   try {

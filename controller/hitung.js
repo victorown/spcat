@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const helper = require("./helper");
 const { Cat, Kondisi } = require("../models");
-const middleware = require("./midd");
 
-router.post("", middleware, async (req, res) => {
+router.post("", async (req, res) => {
   var model = req.body;
 
   try {
@@ -35,7 +34,7 @@ let perhitungan = async (jawaban) => {
     for (let index = 0; index < cat.Kondisis.length; index++) {
       let g = cat.Kondisis[index];
       let bobot = 0;
-      let jawab = jawaban.find((x) => (x.id = g.id));
+      let jawab = jawaban.find((x) => (x.code = g.kode));
       if (jawab) {
         bobot = helper.getValueOfPilihan(jawab.Jawaban.pilihan);
       }

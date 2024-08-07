@@ -41,7 +41,6 @@ new Vue({
                 kode: this.kode.toUpperCase(),
                 nama: this.nama,
             };
-            console.log(data.kode.toUpperCase());
             if (!data.id) {
                 axios
                     .post(this.apiUrl, data, window.crtHeader())

@@ -28,111 +28,99 @@
             }
         }
     </script>
+
 </head>
 
 <body>
     <div id="app">
-        <div class="relative h-screen bg-cover bg-[center_bottom_-11rem]"
+        <div class="relative text-black h-screen bg-cover bg-[center_bottom_-11rem]"
             style="background-image: url('../dist/img/front-bg.jpg');">
             <div class="absolute inset-0 bg-black opacity-50"></div>
-            <div class="flex flex-col justify-center items-center h-full p-4 text-center text-white">
-                <inpt
-                    class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay bg-gray-700">
-                    <form>
-                        <label class="block text-lg font-semibold mb-2">Apakah Anda tinggal dekat dengan laut?</label>
+            <div class="relative z-10 flex flex-col items-center py-8 overflow-y-auto h-full text-center text-white">
+                <div v-if="showForm">
+                    <div v-for="(q, qindex) in questions" :key="qindex"
+                        class="form-card w-full max-w-2xl bg-white p-8 rounded-lg shadow-md text-black mb-6 animate-slide-up-delay">
+                        <label class="block text-lg font-semibold mb-4 text-black">{{ q.text }}</label>
                         <div class="space-y-2">
-                            <div class="flex items-center">
-                                <input type="radio" id="confidence0" name="confidence_near_sea" value="0" class="mr-2">
-                                <label for="confidence0">Sangat tidak yakin</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" id="confidence02" name="confidence_near_sea" value="0.2"
-                                    class="mr-2">
-                                <label for="confidence02">Tidak yakin</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" id="confidence04" name="confidence_near_sea" value="0.4"
-                                    class="mr-2">
-                                <label for="confidence04">Sedikit yakin</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" id="confidence06" name="confidence_near_sea" value="0.6"
-                                    class="mr-2">
-                                <label for="confidence06">Cukup yakin</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" id="confidence08" name="confidence_near_sea" value="0.8"
-                                    class="mr-2">
-                                <label for="confidence08">Yakin</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" id="confidence1" name="confidence_near_sea" value="1" class="mr-2">
-                                <label for="confidence1">Sangat yakin</label>
+                            <div v-for="(a, aindex) in q.answers" :key="aindex" class="flex items-center">
+                                <input type="radio" :value="a.value" :name="'question-' + qindex"
+                                    :id="qindex + '' + aindex" v-model="jawabans[q.code]">
+                                <label class="text-black ml-5" :for="qindex + '' + aindex">{{ a.text }}</label>
                             </div>
                         </div>
-                    </form>
-            </div>
-            <div class="relative z-10 flex flex-col justify-center items-center h-full p-4 text-center text-white">
-                <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">silahkan masukan data diri anda</h1>
-                <form
-                    class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay"
-                    @submit.prevent="submitFormData">
-                    <div class="mb-4 flex flex-col justify-start w-full">
-                        <label class="text-left text-gray-700 text-sm font-bold mb-2" for="nama">
-                            Nama
-                        </label>
-                        <input v-model="formData.nama"
-                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                            id="nama" type="text" placeholder="Nama" required>
-                        <span v-if="!formData.nama" class="mt-2 text-pink-600 text-sm text-start font-bold">Name is
-                            required</span>
                     </div>
-                    <div class="mb-4 flex flex-col justify-start w-full">
-                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="alamat">
-                            Alamat
-                        </label>
-                        <input required v-model="formData.alamat"
-                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                            id="alamat" type="text" placeholder="Alamat">
-                        <span v-if="!formData.alamat" class="mt-2 text-pink-600 text-sm text-start font-bold">Address is
-                            required</span>
+                    <button
+                        class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        @click="submitAnswers">
+                        Submit
+                    </button>
+                </div>
+
+                <div v-else class="relative z-10 flex flex-col items-center p-4 text-center text-white">
+                    <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">silahkan masukan data diri anda
+                    </h1>
+                    <div
+                        class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay">
+                        <div class="mb-4 flex flex-col justify-start w-full">
+                            <label class="text-left text-gray-700 text-sm font-bold mb-2" for="nama">
+                                Nama
+                            </label>
+                            <input v-model="formData.namaKonsumen"
+                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                id="nama" type="text" placeholder="Nama" required>
+                            <span v-if="!formData.namaKonsumen"
+                                class="mt-2 text-pink-600 text-sm text-start font-bold">Name is
+                                required</span>
+                        </div>
+                        <div class="mb-4 flex flex-col justify-start w-full">
+                            <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="alamat">
+                                Alamat
+                            </label>
+                            <input required v-model="formData.alamat"
+                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                id="alamat" type="text" placeholder="Alamat">
+                            <span v-if="!formData.alamat"
+                                class="mt-2 text-pink-600 text-sm text-start font-bold">Address is
+                                required</span>
+                        </div>
+                        <div class="mb-4 flex flex-col justify-start w-full">
+                            <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="kontak">
+                                Kontak
+                            </label>
+                            <input required v-model="formData.kontak"
+                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                id="kontak" type="number" placeholder="Kontak">
+                            <span v-if="!formData.kontak"
+                                class="mt-2 text-pink-600 text-sm text-start font-bold">Contact
+                                number is required</span>
+                        </div>
+                        <div class="mb-6 flex flex-col justify-start w-full">
+                            <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="email">
+                                Email
+                            </label>
+                            <input @change="showButton" required v-model="formData.email"
+                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                id="email" type="email" placeholder="Email">
+                            <span v-if="!formData.email" class="mt-2 text-pink-600 text-sm text-start font-bold">Email
+                                is
+                                required</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button v-if="!busy"
+                                class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                type="submit" @click="submitFormData">
+                                Submit
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-4 flex flex-col justify-start w-full">
-                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="kontak">
-                            Kontak
-                        </label>
-                        <input required v-model="formData.kontak"
-                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                            id="kontak" type="number" placeholder="Kontak">
-                        <span v-if="!formData.kontak" class="mt-2 text-pink-600 text-sm text-start font-bold">Contact
-                            number is required</span>
-                    </div>
-                    <div class="mb-6 flex flex-col justify-start w-full">
-                        <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="email">
-                            Email
-                        </label>
-                        <input @change="showButton" required v-model="formData.email"
-                            class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                            id="email" type="email" placeholder="Email">
-                        <span v-if="!formData.email" class="mt-2 text-pink-600 text-sm text-start font-bold">Email is
-                            required</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <button v-if="!busy"
-                            class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            type="submit">
-                            Submit
-                        </button>
-                    </div>
-                </form>
+
+                </div>
 
             </div>
-
         </div>
-    </div>
 
-    <script src="../dist/js/konsulController.js" type="text/javascript"></script>
-
+        <script src="../dist/js/question.js"></script>
+        <script src="../dist/js/konsulController.js"></script>
 </body>
 
 
