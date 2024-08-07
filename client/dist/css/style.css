@@ -34,3 +34,9 @@
     animation-delay: 0.3s;
     animation-fill-mode: both;
 }
+
+.img-thumbnail{
+    background-color: transparent;
+    border: 0;
+    width: 100%;
+}
