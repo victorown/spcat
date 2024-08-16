@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const middleware = require("./midd");
+// const middleware = require("./midd");
 
 const { Kondisi } = require("../models");
 
 // GET all kondisi
-router.get("/", middleware, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const kond = await Kondisi.findAll();
     res.json(kond);
@@ -18,10 +18,10 @@ router.get("/", middleware, async (req, res) => {
 });
 
 // GET a kondisi by ID
-router.get("/:id", middleware, async (req, res) => {
+router.get("/:id", async (req, res) => {
   let id = req.params.id;
   try {
-    const kond = await Kondisi.findOne({ idkondisi: id });
+    const kond = await Kondisi.findOne({ id: id });
     res.json(kond);
   } catch (error) {
     console.error("Error:", error);
@@ -31,8 +31,32 @@ router.get("/:id", middleware, async (req, res) => {
   }
 });
 
+router.get("/kode/:id", async (req, res) => {
+  let kode = req.params.id;
+
+  try {
+
+    const kond = await Kondisi.findOne({
+      where: { kode: kode },
+      attributes: ['id']
+    });
+
+    if (kond) {
+      res.json(kond);
+    } else {
+      res.status(404).json({ error: "Kondisi tidak ditemukan" });
+    }
+
+  } catch (error) {
+    console.error("Error:", error);
+    res
+      .status(500)
+      .json({ error: "Terjadi kesalahan saat mengambil data kondisi" });
+  }
+});
+
 // POST create a new kondisi
-router.post("", middleware, async (req, res) => {
+router.post("", async (req, res) => {
   var model = req.body;
 
   try {
@@ -53,7 +77,7 @@ router.post("", middleware, async (req, res) => {
 });
 
 // PUT update a kondisi by ID
-router.put("/:id", middleware, async (req, res) => {
+router.put("/:id", async (req, res) => {
   let id = req.params.id;
   var updatedModel = req.body;
 
@@ -78,7 +102,7 @@ router.put("/:id", middleware, async (req, res) => {
 });
 
 // DELETE a kondisi by ID
-router.delete("/:id", middleware, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   let id = req.params.id;
 
   try {

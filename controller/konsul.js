@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const middleware = require("./midd");
 
 const { konsul, Kondisi, Jawaban } = require("../models");
 
 // GET all konsul
-router.get("/", middleware, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const kons = await konsul.findAll({ include: Kondisi });
     res.json(kons);
@@ -18,7 +17,7 @@ router.get("/", middleware, async (req, res) => {
 });
 
 // GET a konsul by ID
-router.get("/:id", middleware, async (req, res) => {
+router.get("/:id", async (req, res) => {
   let id = req.params.id;
   try {
     const kons = await konsul.findOne({ idkonsul: id, include: Kondisi });
@@ -32,14 +31,17 @@ router.get("/:id", middleware, async (req, res) => {
 });
 
 // POST create a new konsul
-router.post("", middleware, async (req, res) => {
+router.post("", async (req, res) => {
   var model = req.body;
   model.tanggal = new Date();
+
   try {
     const kons = await konsul.create(model);
+
     for (let index = 0; index < model.Jawaban.length; index++) {
       const element = model.Jawaban[index];
       element.konsulId = kons.id;
+      
       const j = await Jawaban.create(element);
     }
 
@@ -59,7 +61,7 @@ router.post("", middleware, async (req, res) => {
 });
 
 // PUT update a konsul by ID
-router.put("/:id", middleware, async (req, res) => {
+router.put("/:id", async (req, res) => {
   let id = req.params.id;
   var updatedModel = req.body;
 
@@ -84,7 +86,7 @@ router.put("/:id", middleware, async (req, res) => {
 });
 
 // DELETE a konsul by ID
-router.delete("/:id", middleware, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   let id = req.params.id;
 
   try {

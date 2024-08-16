@@ -4,7 +4,7 @@ const router = express.Router();
 const { Konsumen, konsul } = require("../models");
 
 // GET all konsumen
-router.get("/",  async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const customers = await Konsumen.findAll({ include: konsul });
     res.json(customers);
@@ -17,7 +17,7 @@ router.get("/",  async (req, res) => {
 });
 
 // GET a konsumen by ID
-router.get("/:id",  async (req, res) => {
+router.get("/:id", async (req, res) => {
   let id = req.params.id;
   try {
     const customers = await Konsumen.findOne({ idkonsument: id });
@@ -31,7 +31,7 @@ router.get("/:id",  async (req, res) => {
 });
 
 // POST create a new konsumen
-router.post("",  async (req, res) => {
+router.post("", async (req, res) => {
   var model = req.body;
 
   try {
@@ -52,7 +52,7 @@ router.post("",  async (req, res) => {
 });
 
 // PUT update a konsumen by ID
-router.put("/:id",  async (req, res) => {
+router.put("/:id", async (req, res) => {
   let id = req.params.id;
   var updatedModel = req.body;
 
@@ -77,7 +77,7 @@ router.put("/:id",  async (req, res) => {
 });
 
 // DELETE a konsumen by ID
-router.delete("/:id",  async (req, res) => {
+router.delete("/:id", async (req, res) => {
   let id = req.params.id;
 
   try {

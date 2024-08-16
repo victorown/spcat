@@ -9,7 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,6 +26,9 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
+
+        <title>{{ title }}</title>
+
 
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: rgb(247, 135, 43);"
@@ -354,7 +356,8 @@
             el: '#wrapper',
             data: {
                 riwayatList: [],
-                selectedRiwayat: null
+                selectedRiwayat: null,
+                title: 'Admin - Riwayat'
             },
             mounted() {
                 this.getDataFromApi();
@@ -398,6 +401,7 @@
 
                 logout() {
                     localStorage.removeItem('token');
+                    localStorage.removeItem('role');
                     window.location.href = '/login';
                 }
 

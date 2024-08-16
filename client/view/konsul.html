@@ -40,12 +40,13 @@
                 <div v-if="showForm">
                     <div v-for="(q, qindex) in questions" :key="qindex"
                         class="form-card w-full max-w-2xl bg-white p-8 rounded-lg shadow-md text-black mb-6 animate-slide-up-delay">
-                        <label class="block text-lg font-semibold mb-4 text-black">{{ q.text }}</label>
+                        <label class="block text-lg font-semibold mb-4 text-black">{{ qindex + 1 }}. {{ q.text
+                            }}</label>
                         <div class="space-y-2">
                             <div v-for="(a, aindex) in q.answers" :key="aindex" class="flex items-center">
-                                <input type="radio" :value="a.value" :name="'question-' + qindex"
-                                    :id="qindex + '' + aindex" v-model="jawabans[q.code]">
-                                <label class="text-black ml-5" :for="qindex + '' + aindex">{{ a.text }}</label>
+                                <input type="radio" :name="'question-' + qindex" :id="qindex + '' + aindex"
+                                    @change="updateAnswer(q.code, a.pilihan, qindex)">
+                                <label class="text-black ml-5" :for="qindex + '' + aindex">{{ a.pilihan }}</label>
                             </div>
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                                 Nama
                             </label>
                             <input v-model="formData.namaKonsumen"
-                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
                                 id="nama" type="text" placeholder="Nama" required>
                             <span v-if="!formData.namaKonsumen"
                                 class="mt-2 text-pink-600 text-sm text-start font-bold">Name is
@@ -77,7 +78,7 @@
                                 Alamat
                             </label>
                             <input required v-model="formData.alamat"
-                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
                                 id="alamat" type="text" placeholder="Alamat">
                             <span v-if="!formData.alamat"
                                 class="mt-2 text-pink-600 text-sm text-start font-bold">Address is
@@ -88,7 +89,7 @@
                                 Kontak
                             </label>
                             <input required v-model="formData.kontak"
-                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
                                 id="kontak" type="number" placeholder="Kontak">
                             <span v-if="!formData.kontak"
                                 class="mt-2 text-pink-600 text-sm text-start font-bold">Contact
@@ -99,7 +100,7 @@
                                 Email
                             </label>
                             <input @change="showButton" required v-model="formData.email"
-                                class="peer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
                                 id="email" type="email" placeholder="Email">
                             <span v-if="!formData.email" class="mt-2 text-pink-600 text-sm text-start font-bold">Email
                                 is
@@ -116,10 +117,23 @@
 
                 </div>
 
+                <div class="relative z-10 flex flex-col items-center p-4 text-center text-white">
+                    <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">rekomendasi cat</h1>
+                    <div
+                        class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay">
+                        <ol>
+                            <li>Colour Extreme</li>
+                        </ol>
+                    </div>
+
+                </div>
+
+
+
             </div>
         </div>
 
-        <script src="../dist/js/question.js"></script>
+        <script src="../dist/js/konsulModel.js"></script>
         <script src="../dist/js/konsulController.js"></script>
 </body>
 

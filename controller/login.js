@@ -14,7 +14,6 @@ router.post("/", async (req, res) => {
     const { userName, password } = req.body;
 
     const user = await User.findOne({ where: { userName } });
-
     if (!user) {
       return res.status(401).json({ message: "Username salah." });
     }
@@ -36,9 +35,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-function generateAccessToken(username) {
-  console.log(process.env.TOKEN_SECRET);
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: "1d" });
+function generateAccessToken(payload) {
+  return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: "1d" });
 }
 
 module.exports = router;

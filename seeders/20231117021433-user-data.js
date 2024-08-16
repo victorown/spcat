@@ -8,6 +8,7 @@ module.exports = {
       {
         userName: "Admin170",
         password: passwordHash,
+        role: "admin",
       },
     ]);
   },

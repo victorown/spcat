@@ -9,7 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{title}}</title>
 
     <!-- Custom fonts for this template-->
     <link href="../dist/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,6 +26,10 @@
     style="height: 100vh; align-items: center; justify-content: center; display: flex; margin: 0;">
 
     <div class="container" id="login">
+
+        <!-- title page -->
+        <title>{{title}}</title>
+
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -83,57 +86,7 @@
     <!-- Custom scripts for all pages-->
     <script src="../dist/js/sb-admin-2.min.js"></script>
 
-    <script>
-        new Vue({
-            el: '#login',
-            data: {
-                pageTitle: 'Login | SP Jotun Cat',
-                userName: '',
-                password: '',
-            },
-            created() {
-                const token = localStorage.getItem('token');
-
-                if (token) {
-                    this.isAuthenticated = true;
-                    window.location.href = '/admin/dashboard';
-                } else {
-                    this.isAuthenticated = false;
-                }
-            },
-            methods: {
-                login() {
-                    const apiUrl = 'http://localhost:3000/api/login';
-
-                    const formData = {
-                        userName: this.userName,
-                        password: this.password
-                    };
-
-                    axios.post(apiUrl, formData)
-                        .then(response => {
-                            console.log('login successful:', response);
-
-                            const token = response.data.token;
-                            axios.defaults.headers.common['authorization'] = 'bearer ' + token;
-
-                            localStorage.setItem('token', token);
-
-                            window.location.href = '/admin/dashboard';
-                        })
-                        .catch(error => {
-                            console.error('Login failed:', error);
-                        });
-                }
-            },
-        });
-        new Vue({
-            el: 'title',
-            data: {
-                title: "Login | SP Jotun"
-            }
-        })
-    </script>
+    <script src="../dist//js/loginController.js"></script>
 
 </body>
 

@@ -8,26 +8,35 @@ new Vue({
             kontak: '',
             email: ''
         },
-        jawabans: [],
+        header: { headers: { 'Content-Type': 'application/json', } },
+        Jawaban: [],
+        dataKondisi: {},
+        selectedKondisi: [],
         questions: window.questions,
         showForm: false,
         busy: true,
+        hasil: [],
+        result: false,
     },
     mounted() {
-        console.log(this.formData);
-        if(this.formData !== null){
+        this.idKonsumen = localStorage.getItem("konsumen")
+        if (this.idKonsumen) {
             this.showForm = true
+        } else {
+            this.showForm = false
         }
+    },
+    created() {
     },
     methods: {
         submitFormData() {
             axios.post(this.apiUrl + '/konsumen', this.formData).then((res) => {
                 if (res) {
-                    this.formData = res
-                    // console.log(res);
-                    this.showForm = true;
+                    this.idKonsumen = res.data.id
+                    localStorage.setItem('konsumen', this.idKonsumen)
                 }
             })
+            this.showForm = true;
         },
 
         showButton() {
@@ -38,10 +47,57 @@ new Vue({
             }
         },
 
-        submitAnswers() {
+        async getIdKondisi(kode) {
+            const idKondisi = await axios.get(`${this.apiUrl}/kondisi/kode/${kode}`);
+            console.log("id Kondisi: ", idKondisi.data.id);
+            return idKondisi.data.id
+        },
+
+        updateAnswer(questionCode, answersPilihan, qindex) {
+            if (this.Jawaban[qindex]) {
+                this.$set(this.Jawaban, qindex, {
+                    code: questionCode,
+                    pilihan: answersPilihan,
+                });
+            } else {
+                this.$set(this.Jawaban, qindex, {
+                    code: questionCode,
+                    pilihan: answersPilihan,
+                });
+            }
+            console.log('masukan data: ', this.Jawaban);
+        },
+
+        async submitAnswers() {
             alert('yakin simpan data?');
-            console.log(this.jawabans);
-            // axios.post(this.apiUrl + '/hitung', this.jawabans)
+
+            try {
+                this.Jawaban = await Promise.all(this.Jawaban.map(async (jawaban) => {
+                    const idKondisi = await this.getIdKondisi(jawaban.code);
+                    return {
+                        ...jawaban,
+                        kondisiId: idKondisi
+                    };
+                }));
+
+                if (Array.isArray(this.Jawaban)) {
+                    this.Jawaban = this.Jawaban.filter(jawaban => jawaban !== undefined);
+                }
+
+                console.log("data answer final: ", JSON.stringify(this.Jawaban));
+
+            } catch (error) {
+                console.error(error);
+            }
+
+            let data = JSON.stringify(this.Jawaban)
+            axios.post(this.apiUrl + '/hitung', data, this.header)
+                .then(response => {
+                    console.log('Response:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
 
     }
