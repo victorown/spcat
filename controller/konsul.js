@@ -32,14 +32,17 @@ router.get("/:id", async (req, res) => {
 
 // POST create a new konsul
 router.post("", async (req, res) => {
-  var model = req.body;
-  model.tanggal = new Date();
+  var reqx = req.body;
+  var data = {};
+  data.konsumenId = reqx.konsumenId
+  data.tanggal = new Date();
 
   try {
-    const kons = await konsul.create(model);
+    console.log("ini data yang masuk: ", data);
+    const kons = await konsul.create(data);
 
-    for (let index = 0; index < model.Jawaban.length; index++) {
-      const element = model.Jawaban[index];
+    for (let index = 0; index < reqx.pilihan.length; index++) {
+      const element = reqx.pilihan[index];
       element.konsulId = kons.id;
       
       const j = await Jawaban.create(element);

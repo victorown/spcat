@@ -38,46 +38,28 @@ let perhitungan = async (jawaban) => {
     cats.forEach((cat) => {
       let odd = 0;
       let lastIndex = 0;
-      let gIndexes = [];
+      // let gIndexes = [];
 
       for (let index = 0; index < cat.Kondisis.length; index++) {
         let g = cat.Kondisis[index];
         let bobot = 0;
-        
+
         let jawab = jawaban.find(x => x.code === g.kode);
-        console.log("Jawab found:", jawab);
         if (jawab) {
           bobot = helper.getValueOfPilihan(jawab.pilihan);
-          console.log("Bobot yang di dapat: ",bobot);
-        }
-
-        if (g.Pengetahuan && g.Pengetahuan.cf) {
-          let gIndex = g.Pengetahuan.cf * bobot;
-          gIndexes.push(gIndex);
-
-          if (index <= 0) {
-            lastIndex = gIndex;
-          } else if (index == 1) {
-            odd = lastIndex + gIndex * (1 - lastIndex);
-            console.log(`lastIndex: ${lastIndex} + gIndex: ${gIndex} * (1 - lastIndex: ${lastIndex}) = odd: ${odd}`);
-          } else if (index > 1) {
-            odd = odd + gIndex * (1 - odd);
-            console.log(`odd: ${odd} + gIndex: ${gIndex} * (1 - odd: ${odd}) = odd: ${odd}`);
-          }
-        } else {
-          console.warn(`Missing Pengetahuan or cf for Kondisi at index ${index}`);
         }
 
         // let gIndex = g.Pengetahuan.cf * bobot;
         // gIndexes.push(gIndex);
 
-        // if (index <= 0) {
-        //   lastIndex = gIndex;
-        // } else if (index == 1) {
-        //   odd = lastIndex + gIndex * (1 - lastIndex);
-        // } else if (index > 1) {
-        //   odd = odd + gIndex * (1 - odd);
-        // }
+        if (index === 0) {
+          lastIndex = bobot;
+        } else if (index === 1) {
+          odd = lastIndex + bobot * (1 - lastIndex);
+        } else {
+          odd = odd + bobot * (1 - odd);
+        }
+
       }
 
       odds.push(odd);

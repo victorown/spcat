@@ -33,11 +33,98 @@
 
 <body>
     <div id="app">
-        <div class="relative text-black h-screen bg-cover bg-[center_bottom_-11rem]"
+        <div class="relative w-screen text-black h-screen bg-cover bg-[center_bottom_-11rem]"
             style="background-image: url('../dist/img/front-bg.jpg');">
             <div class="absolute inset-0 bg-black opacity-50"></div>
-            <div class="relative z-10 flex flex-col items-center py-8 overflow-y-auto h-full text-center text-white">
-                <div v-if="showForm">
+            <div class="p-4 relative z-10 flex flex-col items-center overflow-y-auto h-full text-center">
+                <div class="w-full bg-gray-200/75">
+                    <hr class="border-blue-500 border-[2.5px]">
+                    <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">konsultasi jenis cat
+                        jotun eksterior</h1>
+                    <hr class="border-black/30 border">
+                    <div class="p-4 w-full">
+                        <div class="w-full bg-white rounded-md shadow-md">
+                            <h1 class="font-medium text-xl text-gray-700 text-start p-3">Data Konsumen</h1>
+                            <hr class="w-full border border-gray-300">
+                            <div class="p-4">
+                                <div class="flex items-center justify-center">
+                                    <div class="w-1/2 text-start mr-2">
+                                        <label class="text-gray-700 font-medium">Nama</label>
+                                        <input type="text" :class="this.inputStyle">
+                                    </div>
+                                    <div class="w-1/2 text-start">
+                                        <label class="text-gray-700 font-medium">Alamat</label>
+                                        <input type="text" :class="this.inputStyle">
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-center my-4">
+                                    <div class="w-1/2 text-start mr-2">
+                                        <label class="text-gray-700 font-medium">Kontak</label>
+                                        <input inputmode="numeric" :class="this.inputStyle">
+                                    </div>
+                                    <div class="w-1/2 text-start">
+                                        <label class="text-gray-700 font-medium">Email</label>
+                                        <input type="email" :class="this.inputStyle">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div
+                                class="w-full bg-[#FFA41D] my-4 p-4 text-gray-800 shadow-md rounded-md flex items-center">
+                                <p class="text-left text-lg w-[95%] mr-5">Silahkan isi form berikut menurut tingkat
+                                    keyakinan terhadap lingkungan luar rumah anda. Anda dapat menilai dari Sangat Tidak
+                                    Yakin sampai
+                                    Sangat Yakin dari arah kiri ke kanan. Setelah memilih, tekan tombol
+                                    "Lihat Hasil" di
+                                    bawah
+                                    untuk mendapatkan hasil rekomendasi.
+                                </p>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2.5" class="w-6 h-6 hover:text-white">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                            <img class="w-1/2" src="../dist/img/guide.png" alt="contoh">
+                        </div>
+
+                        <div class="w-full rounded-md border bg-white border-gray-500">
+                            <table class="w-full border-none rounded-md overflow-hidden text-xl">
+                                <thead>
+                                    <tr class="border-b border-gray-400">
+                                        <th>#</th>
+                                        <th class="text-start p-2">Kondisi</th>
+                                        <th class="text-start">Tingkat Keyakinan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-300" v-for="(q, qIndex) in questions" :key="qIndex">
+                                        <td class="text-center px-4 py-3">{{ qIndex + 1 }}</td>
+                                        <td class="text-start">{{ q.text }}</td>
+                                        <td>
+                                            <div class="flex flex-row items-center justify-start">
+                                                <label v-for="(a, aIndex) in q.answers" :key="aIndex" class="mb-1">
+                                                    <input type="radio" :name="'question-' + qIndex"
+                                                        :id="qIndex + '-' + aIndex" class="mr-8"
+                                                        @change="updateAnswer(q.code, a.pilihan, qIndex)">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button
+                            class="bg-[#F7872B] my-4 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            @click="submitAnswers">
+                            Lihat Hasil
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- <div v-if="showForm">
                     <div v-for="(q, qindex) in questions" :key="qindex"
                         class="form-card w-full max-w-2xl bg-white p-8 rounded-lg shadow-md text-black mb-6 animate-slide-up-delay">
                         <label class="block text-lg font-semibold mb-4 text-black">{{ qindex + 1 }}. {{ q.text
@@ -55,10 +142,11 @@
                         @click="submitAnswers">
                         Submit
                     </button>
-                </div>
+                </div> -->
 
                 <div v-else class="relative z-10 flex flex-col items-center p-4 text-center text-white">
-                    <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">silahkan masukan data diri anda
+                    <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">silahkan masukan data diri
+                        anda
                     </h1>
                     <div
                         class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay">
@@ -117,13 +205,60 @@
 
                 </div>
 
-                <div class="relative z-10 flex flex-col items-center p-4 text-center text-white">
-                    <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">rekomendasi cat</h1>
-                    <div
-                        class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay">
-                        <ol>
-                            <li>Colour Extreme</li>
-                        </ol>
+                <div class="w-full bg-gray-200/75">
+                    <hr class="border-green-400 border-[2.5px]">
+                    <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi</h1>
+                    <hr class="border-black/30 border">
+
+                    <div class="p-4 w-full flex justify-center">
+                        <h1></h1>
+                    </div>
+
+                </div>
+
+                <div class="w-full bg-gray-200/75 my-5">
+                    <hr class="border-blue-500 border-[2.5px]">
+                    <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Kondisi yang Dipilih</h1>
+                    <hr class="border-black/30 border">
+
+                    <div class="p-4 w-full">
+                        <div class="w-full rounded-md border bg-white border-gray-500 mt-4">
+                            <table class="w-full border-none rounded-md overflow-hidden text-xl">
+                                <thead>
+                                    <tr class="border-b border-gray-400">
+                                        <th>#</th>
+                                        <th class="text-start p-2">Kondisi</th>
+                                        <th class="text-start">Tingkat Keyakinan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-300" v-for="(q, qIndex) in questions" :key="qIndex">
+                                        <td class="text-center px-4 py-3">{{ qIndex + 1 }}</td>
+                                        <td class="text-start">{{ q.text }}</td>
+                                        <td>
+                                            <div class="flex flex-row items-center justify-start">
+                                                <label v-for="(a, aIndex) in q.answers" :key="aIndex" class="mb-1">
+                                                    <input type="radio" :name="'question-' + qIndex"
+                                                        :id="qIndex + '-' + aIndex" class="mr-8"
+                                                        @change="updateAnswer(q.code, a.pilihan, qIndex)">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="w-full bg-gray-200/75">
+                    <hr class="border-amber-500 border-[2.5px]">
+                    <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi Lainnya</h1>
+                    <hr class="border-black/30 border">
+
+                    <div class="p-4 w-full">
+                       
                     </div>
 
                 </div>

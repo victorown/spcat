@@ -15,8 +15,9 @@ new Vue({
         questions: window.questions,
         showForm: false,
         busy: true,
-        hasil: [],
+        hasils: [],
         result: false,
+        inputStyle: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-blue-500 mt-2",
     },
     mounted() {
         this.idKonsumen = localStorage.getItem("konsumen")
@@ -90,15 +91,33 @@ new Vue({
                 console.error(error);
             }
 
-            let data = JSON.stringify(this.Jawaban)
+            let data = this.Jawaban.map(x => {return {pilihan: x.pilihan, code: x.code}})
+            this.mapingHasils();
+            console.log("ini isi data: ", data);
+            console.log("Maping 1st: ", this.hasils);
             axios.post(this.apiUrl + '/hitung', data, this.header)
                 .then(response => {
+                    this.hasils.final = response.data;
                     console.log('Response:', response.data);
+                    console.log('Maping 2nd:', this.hasils);
+                    // this.submitJawabans(this.Jawaban);
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
-        }
+        },
+
+        async submitJawabans(model) {
+            let data = {};
+            data.pilihan = model.map(x => {return {pilihan: x.pilihan, KondisiId: x.kondisiId }});
+            data.konsumenId = this.idKonsumen;
+            axios.post(this.apiUrl + '/konsul', data, this.header);
+        },
+
+        mapingHasils(){
+            this.hasils.pilihan = this.Jawaban.map(x => {return {pilihan: x.pilihan}});
+            this.hasils.kondisi = this.questions.map(x => {return {question: x.text}});
+        },
 
     }
 });
