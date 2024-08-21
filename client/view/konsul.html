@@ -36,13 +36,15 @@
         <div class="relative w-screen text-black h-screen bg-cover bg-[center_bottom_-11rem]"
             style="background-image: url('../dist/img/front-bg.jpg');">
             <div class="absolute inset-0 bg-black opacity-50"></div>
-            <div class="p-4 relative z-10 flex flex-col items-center overflow-y-auto h-full text-center">
-                <div class="w-full bg-gray-200/75">
-                    <hr class="border-blue-500 border-[2.5px]">
+            <div class="p-4 relative  z-10 flex flex-col items-center overflow-y-auto h-full text-center">
+                <!-- card konsultasi -->
+                <div v-if="!showRes" class="w-full bg-gray-200">
+                    <hr class="border-blue-500 border-2">
                     <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">konsultasi jenis cat
                         jotun eksterior</h1>
-                    <hr class="border-black/30 border">
+                    <hr class="border-black/20 border">
                     <div class="p-4 w-full">
+                        <!-- form bidata konsumen -->
                         <div class="w-full bg-white rounded-md shadow-md">
                             <h1 class="font-medium text-xl text-gray-700 text-start p-3">Data Konsumen</h1>
                             <hr class="w-full border border-gray-300">
@@ -70,7 +72,8 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col items-center">
+                        <!-- guide -->
+                        <div v-if="showGuide" class="flex flex-col items-center">
                             <div
                                 class="w-full bg-[#FFA41D] my-4 p-4 text-gray-800 shadow-md rounded-md flex items-center">
                                 <p class="text-left text-lg w-[95%] mr-5">Silahkan isi form berikut menurut tingkat
@@ -82,13 +85,20 @@
                                     untuk mendapatkan hasil rekomendasi.
                                 </p>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                                    stroke="currentColor" stroke-width="2.5" class="w-6 h-6 hover:text-white">
+                                    stroke="currentColor" stroke-width="2.5" class="w-6 h-6 hover:text-white"
+                                    @click="showGuide = false">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </div>
                             <img class="w-1/2" src="../dist/img/guide.png" alt="contoh">
                         </div>
+                        <div v-if="!showGuide" class="flex justify-end my-4">
+                            <button
+                                class="font-bold text-3xl text-gray-800 hover:text-white bg-[#FFA41D] focus:ring-2 focus:ring-amber-200 rounded-full w-10"
+                                @click="showGuide = true">?</button>
+                        </div>
 
+                        <!-- table konsultasi -->
                         <div class="w-full rounded-md border bg-white border-gray-500">
                             <table class="w-full border-none rounded-md overflow-hidden text-xl">
                                 <thead>
@@ -144,7 +154,7 @@
                     </button>
                 </div> -->
 
-                <div v-else class="relative z-10 flex flex-col items-center p-4 text-center text-white">
+                <!-- <div v-else class="relative z-10 flex flex-col items-center p-4 text-center text-white">
                     <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">silahkan masukan data diri
                         anda
                     </h1>
@@ -203,24 +213,34 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
 
-                <div class="w-full bg-gray-200/75">
+                <!-- card hasil rekomendasi 1st -->
+                <div v-if="showRes" class="w-full bg-gray-200">
                     <hr class="border-green-400 border-[2.5px]">
                     <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi</h1>
-                    <hr class="border-black/30 border">
+                    <hr class="border-black/20 border">
 
-                    <div class="p-4 w-full flex justify-center">
-                        <h1></h1>
+                    <div class="p-4 w-full">
+                        <div class="p-2 w-full flex justify-around rounded-md bg-white">
+                            <div class="flex flex-col justify-center items-start">
+                                <h1 class="font-semibold text-2xl text-gray-800 text-start">{{ firstRecommend.cat.nama
+                                    }}</h1>
+                                <p class="font-medium text-xl text-gray-800 text-start">{{
+                                    formatPercentage(firstRecommend.odd) }} ({{ firstRecommend.odd.toFixed(2) }})</p>
+                            </div>
+                            <img class="w-36" :src="imgUrl" :alt="firstRecommend.cat.nama">
+                        </div>
                     </div>
 
                 </div>
 
-                <div class="w-full bg-gray-200/75 my-5">
+                <!-- card hasil pilihan konsultasi -->
+                <div v-if="showRes" class="w-full bg-gray-200 my-5">
                     <hr class="border-blue-500 border-[2.5px]">
                     <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Kondisi yang Dipilih</h1>
-                    <hr class="border-black/30 border">
-
+                    <hr class="border-black/20 border">
+                    <br>
                     <div class="p-4 w-full">
                         <div class="w-full rounded-md border bg-white border-gray-500 mt-4">
                             <table class="w-full border-none rounded-md overflow-hidden text-xl">
@@ -232,18 +252,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-b border-gray-300" v-for="(q, qIndex) in questions" :key="qIndex">
-                                        <td class="text-center px-4 py-3">{{ qIndex + 1 }}</td>
-                                        <td class="text-start">{{ q.text }}</td>
-                                        <td>
-                                            <div class="flex flex-row items-center justify-start">
-                                                <label v-for="(a, aIndex) in q.answers" :key="aIndex" class="mb-1">
-                                                    <input type="radio" :name="'question-' + qIndex"
-                                                        :id="qIndex + '-' + aIndex" class="mr-8"
-                                                        @change="updateAnswer(q.code, a.pilihan, qIndex)">
-                                                </label>
-                                            </div>
-                                        </td>
+                                    <tr class="border-b border-gray-300" v-for="(pk, pkIndex) in hasils.selected"
+                                        :key="pkIndex">
+                                        <td class="text-center px-4 py-3">{{ pkIndex + 1 }}</td>
+                                        <td class="text-start">{{ pk.questions }}</td>
+                                        <td class="text-start">{{ pk.pilihans }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -252,13 +265,20 @@
 
                 </div>
 
-                <div class="w-full bg-gray-200/75">
+                <!-- card hasil rekomendasi Lainnya -->
+                <div v-if="showRes" class="w-full bg-gray-200">
                     <hr class="border-amber-500 border-[2.5px]">
-                    <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi Lainnya</h1>
-                    <hr class="border-black/30 border">
+                    <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi Lainnya
+                    </h1>
+                    <hr class="border-black/2   0 border">
 
                     <div class="p-4 w-full">
-                       
+                        <div class="p-2 w-full rounded-md bg-white">
+                            <ul class="text-start w-full font-semibold text-xl p-2 list-disc list-inside"
+                                v-for="(h, hIndex) in hasils.final" :key="hIndex" v-if="h.odd !== 0 && hIndex !== 0">
+                                <li>{{ h.cat.nama }} - {{ formatPercentage(h.odd) }} ({{ h.odd.toFixed(2) }})</li>
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
@@ -267,9 +287,10 @@
 
             </div>
         </div>
+    </div>
 
-        <script src="../dist/js/konsulModel.js"></script>
-        <script src="../dist/js/konsulController.js"></script>
+    <script src="../dist/js/konsulModel.js"></script>
+    <script src="../dist/js/konsulController.js"></script>
 </body>
 
 
