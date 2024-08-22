@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { konsul, Kondisi, Jawaban } = require("../models");
+const { konsul, Kondisi, Jawaban, Konsumen } = require("../models");
+const { where } = require("sequelize");
 
 // GET all konsul
 router.get("/", async (req, res) => {
   try {
-    const kons = await konsul.findAll({ include: Kondisi });
+    const kons = await konsul.findAll({ include: [{ model: Kondisi }, { model: Konsumen }] });
     res.json(kons);
   } catch (error) {
     console.error("Error:", error);
@@ -20,7 +21,10 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   let id = req.params.id;
   try {
-    const kons = await konsul.findOne({ idkonsul: id, include: Kondisi });
+    const kons = await konsul.findOne({
+      where: { id: id },
+      include: [{ model: Kondisi }, { model: Konsumen }]
+    });
     res.json(kons);
   } catch (error) {
     console.error("Error:", error);
@@ -44,7 +48,7 @@ router.post("", async (req, res) => {
     for (let index = 0; index < reqx.pilihan.length; index++) {
       const element = reqx.pilihan[index];
       element.konsulId = kons.id;
-      
+
       const j = await Jawaban.create(element);
     }
 

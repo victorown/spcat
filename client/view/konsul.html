@@ -46,34 +46,83 @@
                     <div class="p-4 w-full">
                         <!-- form bidata konsumen -->
                         <div class="w-full bg-white rounded-md shadow-md">
-                            <h1 class="font-medium text-xl text-gray-700 text-start p-3">Data Konsumen</h1>
+                            <div class="flex justify-between items-center">
+                                <h1 class="font-medium text-xl text-gray-700 text-start p-3">Data Konsumen</h1>
+                                <button v-show="!showForm"
+                                    @click="setEdit"
+                                    class="bg-[#F7872B] mr-2 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    >Edit</button>
+                            </div>
                             <hr class="w-full border border-gray-300">
-                            <div class="p-4">
+                            <div v-if="!showForm" class="p-4">
+                                <div class="flex flex-col justify-center items-start text-lg font-medium text-gray-800">
+                                    <div class="flex justify-center items-center">
+                                        <p>Nama</p>
+                                        <p class="ml-6">: {{ formData.namaKonsumen }}</p>
+                                    </div>
+                                    <div class="flex justify-center items-center">
+                                        <p>Alamat</p>
+                                        <p class="ml-4">: {{ formData.alamat }}</p>
+                                    </div>
+                                    <div class="flex justify-center items-center">
+                                        <p>Kontak</p>
+                                        <p class="ml-4">: {{ formData.kontak }}</p>
+                                    </div>
+                                    <div class="flex justify-center items-center">
+                                        <p>Email</p>
+                                        <p class="ml-[29.5px]">: {{ formData.email }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else class="p-4">
                                 <div class="flex items-center justify-center">
                                     <div class="w-1/2 text-start mr-2">
                                         <label class="text-gray-700 font-medium">Nama</label>
-                                        <input type="text" :class="this.inputStyle">
+                                        <input required type="text" :class="this.inputStyle"
+                                            v-model="formData.namaKonsumen">
+                                        <span v-if="!formData.namaKonsumen"
+                                            class="mt-2 text-red-600 text-sm text-start font-semibold">Name is
+                                            required</span>
                                     </div>
                                     <div class="w-1/2 text-start">
                                         <label class="text-gray-700 font-medium">Alamat</label>
-                                        <input type="text" :class="this.inputStyle">
+                                        <input required type="text" :class="this.inputStyle" v-model="formData.alamat">
+                                        <span v-if="!formData.alamat"
+                                            class="mt-2 text-red-600 text-sm text-start font-semibold">Address is
+                                            required</span>
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-center my-4">
                                     <div class="w-1/2 text-start mr-2">
                                         <label class="text-gray-700 font-medium">Kontak</label>
-                                        <input inputmode="numeric" :class="this.inputStyle">
+                                        <input required inputmode="numeric" :class="this.inputStyle"
+                                            v-model="formData.kontak">
+                                        <span v-if="!formData.kontak"
+                                            class="mt-2 text-red-600 text-sm text-start font-semibold">Contact
+                                            number is required</span>
                                     </div>
                                     <div class="w-1/2 text-start">
                                         <label class="text-gray-700 font-medium">Email</label>
-                                        <input type="email" :class="this.inputStyle">
+                                        <input required type="email" :class="this.inputStyle" v-model="formData.email"
+                                            @change="showButton">
+                                        <span v-if="!formData.email"
+                                            class="mt-2 text-red-600 text-sm text-start font-semibold">Email
+                                            is
+                                            required</span>
                                     </div>
+                                </div>
+                                <div class="flex items-center justify-end">
+                                    <button v-if="!busy"
+                                        class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                        type="submit" @click="submitFormData">
+                                        Submit
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
                         <!-- guide -->
-                        <div v-if="showGuide" class="flex flex-col items-center">
+                        <div v-if="showGuide" v-show="!showForm" class="flex flex-col items-center">
                             <div
                                 class="w-full bg-[#FFA41D] my-4 p-4 text-gray-800 shadow-md rounded-md flex items-center">
                                 <p class="text-left text-lg w-[95%] mr-5">Silahkan isi form berikut menurut tingkat
@@ -92,14 +141,14 @@
                             </div>
                             <img class="w-1/2" src="../dist/img/guide.png" alt="contoh">
                         </div>
-                        <div v-if="!showGuide" class="flex justify-end my-4">
+                        <div v-if="!showGuide" v-show="!showForm" class="flex justify-end my-4">
                             <button
                                 class="font-bold text-3xl text-gray-800 hover:text-white bg-[#FFA41D] focus:ring-2 focus:ring-amber-200 rounded-full w-10"
                                 @click="showGuide = true">?</button>
                         </div>
 
                         <!-- table konsultasi -->
-                        <div class="w-full rounded-md border bg-white border-gray-500">
+                        <div v-show="!showForm" class="w-full rounded-md border bg-white border-gray-500">
                             <table class="w-full border-none rounded-md overflow-hidden text-xl">
                                 <thead>
                                     <tr class="border-b border-gray-400">
@@ -125,7 +174,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button
+                        <button v-show="!showForm"
                             class="bg-[#F7872B] my-4 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             @click="submitAnswers">
                             Lihat Hasil
@@ -134,100 +183,32 @@
 
                 </div>
 
-                <!-- <div v-if="showForm">
-                    <div v-for="(q, qindex) in questions" :key="qindex"
-                        class="form-card w-full max-w-2xl bg-white p-8 rounded-lg shadow-md text-black mb-6 animate-slide-up-delay">
-                        <label class="block text-lg font-semibold mb-4 text-black">{{ qindex + 1 }}. {{ q.text
-                            }}</label>
-                        <div class="space-y-2">
-                            <div v-for="(a, aindex) in q.answers" :key="aindex" class="flex items-center">
-                                <input type="radio" :name="'question-' + qindex" :id="qindex + '' + aindex"
-                                    @change="updateAnswer(q.code, a.pilihan, qindex)">
-                                <label class="text-black ml-5" :for="qindex + '' + aindex">{{ a.pilihan }}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <button
-                        class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        @click="submitAnswers">
-                        Submit
-                    </button>
-                </div> -->
-
-                <!-- <div v-else class="relative z-10 flex flex-col items-center p-4 text-center text-white">
-                    <h1 class="text-2xl capitalize font-semibold mb-8 animate-slide-up">silahkan masukan data diri
-                        anda
-                    </h1>
-                    <div
-                        class="form-card w-full max-w-lg bg-white p-8 rounded-lg shadow-md text-black animate-slide-up-delay">
-                        <div class="mb-4 flex flex-col justify-start w-full">
-                            <label class="text-left text-gray-700 text-sm font-bold mb-2" for="nama">
-                                Nama
-                            </label>
-                            <input v-model="formData.namaKonsumen"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                                id="nama" type="text" placeholder="Nama" required>
-                            <span v-if="!formData.namaKonsumen"
-                                class="mt-2 text-pink-600 text-sm text-start font-bold">Name is
-                                required</span>
-                        </div>
-                        <div class="mb-4 flex flex-col justify-start w-full">
-                            <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="alamat">
-                                Alamat
-                            </label>
-                            <input required v-model="formData.alamat"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                                id="alamat" type="text" placeholder="Alamat">
-                            <span v-if="!formData.alamat"
-                                class="mt-2 text-pink-600 text-sm text-start font-bold">Address is
-                                required</span>
-                        </div>
-                        <div class="mb-4 flex flex-col justify-start w-full">
-                            <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="kontak">
-                                Kontak
-                            </label>
-                            <input required v-model="formData.kontak"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                                id="kontak" type="number" placeholder="Kontak">
-                            <span v-if="!formData.kontak"
-                                class="mt-2 text-pink-600 text-sm text-start font-bold">Contact
-                                number is required</span>
-                        </div>
-                        <div class="mb-6 flex flex-col justify-start w-full">
-                            <label class="block text-left text-gray-700 text-sm font-bold mb-2" for="email">
-                                Email
-                            </label>
-                            <input @change="showButton" required v-model="formData.email"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-green-300"
-                                id="email" type="email" placeholder="Email">
-                            <span v-if="!formData.email" class="mt-2 text-pink-600 text-sm text-start font-bold">Email
-                                is
-                                required</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <button v-if="!busy"
-                                class="bg-[#F7872B] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                type="submit" @click="submitFormData">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-
-                </div> -->
-
                 <!-- card hasil rekomendasi 1st -->
                 <div v-if="showRes" class="w-full bg-gray-200">
                     <hr class="border-green-400 border-[2.5px]">
-                    <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi</h1>
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi</h1>
+                        <div class="flex justify-center items-center">
+                            <button @click="againKonsul"
+                                    class="bg-[#F7872B] mr-2 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    >Konsultasi Lagi</button>
+                            <button @click="endKonsul"
+                                    class="bg-lime-400 mr-2 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    >Selesai</button>
+                        </div>
+                    </div>
                     <hr class="border-black/20 border">
 
                     <div class="p-4 w-full">
                         <div class="p-2 w-full flex justify-around rounded-md bg-white">
                             <div class="flex flex-col justify-center items-start">
-                                <h1 class="font-semibold text-2xl text-gray-800 text-start">{{ firstRecommend.cat.nama
-                                    }}</h1>
-                                <p class="font-medium text-xl text-gray-800 text-start">{{
-                                    formatPercentage(firstRecommend.odd) }} ({{ firstRecommend.odd.toFixed(2) }})</p>
+                                <h1 class="font-semibold text-2xl text-gray-800 text-start">
+                                    {{ firstRecommend.cat.nama }}
+                                </h1>
+                                <p class="font-medium text-xl text-gray-800 text-start">
+                                    {{ formatPercentage(firstRecommend.odd) }} ({{ formatDecimals(firstRecommend.odd)
+                                    }})
+                                </p>
                             </div>
                             <img class="w-36" :src="imgUrl" :alt="firstRecommend.cat.nama">
                         </div>
@@ -270,13 +251,13 @@
                     <hr class="border-amber-500 border-[2.5px]">
                     <h1 class="text-3xl text-gray-800 capitalize font-semibold text-start p-4">Hasil Rekomendasi Lainnya
                     </h1>
-                    <hr class="border-black/2   0 border">
+                    <hr class="border-black/20 border">
 
                     <div class="p-4 w-full">
                         <div class="p-2 w-full rounded-md bg-white">
                             <ul class="text-start w-full font-semibold text-xl p-2 list-disc list-inside"
                                 v-for="(h, hIndex) in hasils.final" :key="hIndex" v-if="h.odd !== 0 && hIndex !== 0">
-                                <li>{{ h.cat.nama }} - {{ formatPercentage(h.odd) }} ({{ h.odd.toFixed(2) }})</li>
+                                <li>{{ h.cat.nama }} - {{ formatPercentage(h.odd) }} ({{ formatDecimals(h.odd) }})</li>
                             </ul>
                         </div>
                     </div>

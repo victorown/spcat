@@ -120,20 +120,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <!-- <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -200,7 +186,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nama Konsumen</th>
-                                        <th>Alamat</th>
+                                        <th>Waktu dan Tanggal</th>
                                         <th>Kontak</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -208,14 +194,14 @@
                                 <tbody>
                                     <tr v-for="(riwayat, index) in riwayatList" :key="index">
                                         <td>{{ index + 1}}</td>
-                                        <td>{{ riwayat.namaKonsumen}}</td>
-                                        <td>{{ riwayat.alamat}}</td>
-                                        <td>{{ riwayat.kontak}}</td>
+                                        <td>{{ riwayat.Konsumen.namaKonsumen}}</td>
+                                        <td>{{ formatDate(riwayat.tanggal)}}</td>
+                                        <td>{{ riwayat.Konsumen.kontak}}</td>
                                         <td>
-                                            <a href="" class="btn btn-info" data-toggle="modal" data-target="#detail"
-                                                @click="riwayatDetail(riwayat)">
-                                                <i class="fas fa-info"></i></a>
+                                            <button class="btn btn-info" @click="riwayatDetail(riwayat)">
+                                                <i class="fas fa-info"></i></button>
                                         </td>
+                                        <!-- <a href="./detailRiwayat.html"></a> -->
                                     </tr>
                                 </tbody>
                             </table>
@@ -261,11 +247,10 @@
                                     {{ formatDate(konsul.tanggal) }}
                                 </li>
                             </ul>
-                            <p v-else>Tidak ada data konsul.</p>
                         </div>
                         <div class="modal-footer">
-                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button> -->
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                         </div>
                     </div>
                 </div>
@@ -274,7 +259,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -298,34 +283,34 @@
                         <p v-else>Tidak ada data konsul.</p>
                     </div>
                     <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button> -->
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+    </div>
+    </div>
+    </div>
+    </div> -->
 
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" @click="logout">Logout</a>
-                    </div>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" @click="logout">Logout</a>
                 </div>
             </div>
         </div>
-        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
@@ -350,64 +335,7 @@
 
     <!-- Page level plugins -->
     <script src="../dist/vendor/chart.js/Chart.min.js"></script>
-
-    <script>
-        new Vue({
-            el: '#wrapper',
-            data: {
-                riwayatList: [],
-                selectedRiwayat: null,
-                title: 'Admin - Riwayat'
-            },
-            mounted() {
-                this.getDataFromApi();
-            },
-            created() {
-                const token = localStorage.getItem('token');
-
-                if (token) {
-                    this.isAuthenticated = true;
-                } else {
-                    this.isAuthenticated = false;
-                    window.location.href = '/login';
-                }
-            },
-            methods: {
-                getDataFromApi() {
-                    const apiUrl = 'http://localhost:3000/api/konsumen';
-
-                    fetch(apiUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            this.riwayatList = data;
-                        })
-                        .catch(error => console.error('Error fetching data:', error));
-                },
-                formatDate(dateString) {
-                    const options = { year: 'numeric', month: 'long', day: 'numeric' }
-                    const formattedDate = new Date(dateString).toLocaleDateString('id-ID', options)
-                    console.log('Formatted Date:', formattedDate);
-                    return formattedDate
-                },
-                riwayatDetail(riwayat) {
-                    this.selectedRiwayat = riwayat;
-                    console.log('Data loaded successfully:', this.selectedRiwayat);
-                    $('#detail').modal('show')
-
-                    this.$nextTick(() => {
-                        $('#detail').modal('show')
-                    });
-                },
-
-                logout() {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('role');
-                    window.location.href = '/login';
-                }
-
-            }
-        });
-    </script>
+    <script src="../dist/js/riwayatController.js"></script>
 </body>
 
 </html>

@@ -42,6 +42,11 @@ app.get('/admin/riwayat', (req, res) => {
   res.sendFile(__dirname + '/client/view/riwayat.html');
 });
 
+app.get('/admin/riwayat/:id', (req, res) => {
+  res.sendFile(__dirname + '/client/view/detailRiwayat.html');
+});
+
+
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/client/view/login.html');
 });

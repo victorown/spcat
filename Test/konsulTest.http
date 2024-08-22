@@ -1,5 +1,5 @@
-@url=http://localhost:3000/api/konsul
-@token =  bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluMTcwIiwiaWF0IjoxNzAwNDcwNTYxLCJleHAiOjE3MDA1NTY5NjF9.u-oDhGD4cqpT--wKm7PAskDhAVBbfHvSZmiCC6jxyR4
+@url=http://localhost:3000/api/konsul/
+@token =  bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluMTcwIiwiaWF0IjoxNzI0MzEzOTk3LCJleHAiOjE3MjQ0MDAzOTd9.QhoXty6YurwTzTTIn8IeIiItlrStcZrTqq0YQ5Sssto
 GET {{url}} HTTP/1.1
 Content-Type: application/json
 Authorization: {{token}}

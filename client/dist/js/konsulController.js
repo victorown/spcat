@@ -2,18 +2,13 @@ new Vue({
     el: '#app',
     data: {
         apiUrl: "http://localhost:3000/api",
-        formData: {
-            namaKonsumen: '',
-            alamat: '',
-            kontak: '',
-            email: ''
-        },
+        formData: {},
         header: { headers: { 'Content-Type': 'application/json', } },
         Jawaban: [],
         dataKondisi: {},
         selectedKondisi: [],
         questions: window.questions,
-        showForm: false,
+        showForm: true,
         busy: true,
         hasils: [],
         result: false,
@@ -21,37 +16,49 @@ new Vue({
         showGuide: true,
         imgUrl: '',
         showToTopButton: false,
+        idKonsumen: 0,
         inputStyle: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight invalid:focus:outline-red-400 valid:focus:outline-blue-500 mt-2",
     },
-    watch: {
-        showRes(newVal) {
-            console.log("showRes changed:", newVal);
-            if (newVal) {
-                this.$nextTick(() => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-            }
+    mounted() {
+        let data = localStorage.getItem("konsumen");
+        if (data) {
+            let parseData = JSON.parse(data);
+            this.formData = parseData
+            this.showForm = false;
+        } else {
+            this.showForm = true;
         }
     },
-    mounted() {
-        window.addEventListener('scroll', this.scrollFunction);
-        this.idKonsumen = localStorage.getItem("konsumen");
-        this.showForm = !!this.idKonsumen;
-    },
-    beforeDestroy() {
-        window.removeEventListener('scroll', this.toggleVisibility);
-    },
     methods: {
+        setEdit() {
+            this.showForm = true;
+            this.busy = false;
+        },
+
         submitFormData() {
-            axios.post(this.apiUrl + '/konsumen', this.formData).then((res) => {
-                if (res) {
-                    this.idKonsumen = res.data.id
-                    localStorage.setItem('konsumen', this.idKonsumen)
+            try {
+                if (this.formData.id) {
+                    // console.log("Data put: ", this.formData);
+                    axios.put(this.apiUrl + `/konsumen/${this.formData.id}`, this.formData).then((res) => {
+                        if (res) {
+                            this.showForm = false
+                            localStorage.setItem('konsumen', JSON.stringify(this.formData));
+                        }
+                    });
+                } else {
+                    // console.log("Data post: ", this.formData);
+                    axios.post(this.apiUrl + '/konsumen', this.formData).then((res) => {
+                        if (res) {
+                            let data = res.data;
+                            this.formData = data;
+                            this.showForm = false;
+                            localStorage.setItem('konsumen', JSON.stringify(data));
+                        }
+                    })
                 }
-            })
+            } catch (err) {
+                console.error("Gagal menimpan data konsumen", err);
+            }
             this.showForm = true;
         },
 
@@ -103,13 +110,12 @@ new Vue({
             }
 
             let data = this.Jawaban.map(x => { return { pilihan: x.pilihan, code: x.code } })
-            // this.mapingHasils();
             axios.post(this.apiUrl + '/hitung', data, this.header)
                 .then(response => {
                     this.hasils.final = response.data;
                     this.hasils.final.sort((a, b) => b.odd - a.odd);
-                    console.log('Response:', response.data);
-                    // this.submitJawabans(this.Jawaban);
+                    // console.log('Response:', response.data);
+                    this.submitJawabans(this.Jawaban);
                     this.mapingHasils();
                     this.setFirstRecommend(this.hasils.final);
                     this.showRes = true;
@@ -122,7 +128,8 @@ new Vue({
         async submitJawabans(model) {
             let data = {};
             data.pilihan = model.map(x => { return { pilihan: x.pilihan, KondisiId: x.kondisiId } });
-            data.konsumenId = this.idKonsumen;
+            data.konsumenId = this.formData.id;
+            // console.log("data konsul: ", data);
             axios.post(this.apiUrl + '/konsul', data, this.header);
         },
 
@@ -142,13 +149,26 @@ new Vue({
 
         setFirstRecommend(data) {
             this.firstRecommend = data[0];
-            console.log("first index of final arrays: ", this.firstRecommend);
+            // console.log("first index of final arrays: ", this.firstRecommend);
             if (this.firstRecommend.cat.nama === "Colour Extreme") this.imgUrl = "../dist/img/colour-extreme.png";
             else if (this.firstRecommend.cat.nama === "Ultra Clean") this.imgUrl = "../dist/img/ultra-clean.png";
             else if (this.firstRecommend.cat.nama === "Flex") this.imgUrl = "../dist/img/flex.png";
             else if (this.firstRecommend.cat.nama === "Antifade") this.imgUrl = "../dist/img/antifade.png";
             else if (this.firstRecommend.cat.nama === "Tough Shield") this.imgUrl = "../dist/img/tough-shield.png";
             else if (this.firstRecommend.cat.nama === "Tough Shield Max") this.imgUrl = "../dist/img/tough-shield-max.png";
+        },
+
+        formatDecimals(num) {
+            return Math.trunc(num * 1000) / 1000;
+        },
+
+        endKonsul() {
+            localStorage.removeItem('konsumen');
+            window.location.href = '../';
+        },
+
+        againKonsul() {
+            location.reload();
         },
 
     },
