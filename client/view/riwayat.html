@@ -188,6 +188,8 @@
                                         <th>Nama Konsumen</th>
                                         <th>Waktu dan Tanggal</th>
                                         <th>Kontak</th>
+                                        <th>Alamat</th>
+                                        <th>Email</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -197,6 +199,8 @@
                                         <td>{{ riwayat.Konsumen.namaKonsumen}}</td>
                                         <td>{{ formatDate(riwayat.tanggal)}}</td>
                                         <td>{{ riwayat.Konsumen.kontak}}</td>
+                                        <td>{{ riwayat.Konsumen.alamat}}</td>
+                                        <td>{{ riwayat.Konsumen.email}}</td>
                                         <td>
                                             <button class="btn btn-info" @click="riwayatDetail(riwayat)">
                                                 <i class="fas fa-info"></i></button>

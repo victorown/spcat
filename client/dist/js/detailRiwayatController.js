@@ -3,6 +3,9 @@ new Vue({
     data: {
         apiUrl: 'http://localhost:3000/api',
         header: { headers: { 'Content-Type': 'application/json', } },
+        showTable: true,
+        buttonName: 'Hide Table',
+        showResCard: false,
         riwayatList: [],
         konsumen: {},
         konsul: {},
@@ -12,7 +15,7 @@ new Vue({
         riwayatId: null,
         selectedRiwayat: null,
         questions: window.questions,
-        riwayatList: {},
+        isBusy: true,
         title: 'Admin - Detail Riwayat',
     },
     mounted() {
@@ -55,20 +58,38 @@ new Vue({
             console.log("hasil maping: ", this.hasils);
         },
 
-        hitungs(data) {
-            this.konsumen = data.Konsumen;
-            this.konsul = data;
-            this.kondisis = this.konsul.Kondisis;
-            this.hasils = this.kondisis.map(x => {
-                return {
-                    pilihan: x.Jawaban.pilihan,
-                    kondisiId: x.Jawaban.KondisiId
-                }
-            })
-            console.log("Maping res hasils: ", this.hasils);
+        hitungs() {
+            this.kondisis = this.riwayatList.Kondisis;
+            let code = this.kondisis.map(x => x.kode);
+            let pilihanx = this.Jawaban.map(x => x.pilihan);
+            let data = pilihanx.map((pilihan, index) => { return { pilihan, code: code[index] } });
+            console.log("Maping counting value: ", data);
+            axios.post(this.apiUrl + '/hitung', data, this.header)
+                .then(response => {
+                    this.hasils.final = response.data;
+                    this.hasils.final.sort((a, b) => b.odd - a.odd);
+                    console.log('Response:', this.hasils);
+                    this.isBusy = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             // console.log("data hitung: ", data);
         },
-
+        formatPercentage(num) {
+            return new Intl.NumberFormat('default', {
+                style: 'percent',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
+        },
+        formatDecimals(num) {
+            return Math.trunc(num * 1000) / 1000;
+        },
+        showAction() {
+            this.showTable ? this.buttonName = 'Show Table' : this.buttonName = 'Hide Table';
+            this.showTable = !this.showTable;
+        },
         logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('role');

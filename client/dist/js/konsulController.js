@@ -110,6 +110,7 @@ new Vue({
             }
 
             let data = this.Jawaban.map(x => { return { pilihan: x.pilihan, code: x.code } })
+            console.log("data before counting: ", data);
             axios.post(this.apiUrl + '/hitung', data, this.header)
                 .then(response => {
                     this.hasils.final = response.data;
@@ -119,6 +120,7 @@ new Vue({
                     this.mapingHasils();
                     this.setFirstRecommend(this.hasils.final);
                     this.showRes = true;
+                    // document.getElementById("app").scrollIntoView({behavior:'smooth'});
                 })
                 .catch(error => {
                     console.error('Error:', error);
