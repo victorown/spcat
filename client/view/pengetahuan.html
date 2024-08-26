@@ -260,14 +260,14 @@
                                     <label for="exampleInputEmail1">Jenis Cat</label>
                                     <select class="custom-select" v-model="catId">
                                         <option v-for="cat in catList" :value="cat.id">
-                                            {{cat.nama}}</option>
+                                           {{ cat.kode }} - {{cat.nama}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Kondisi Rumah</label>
                                     <select class="custom-select" v-model="KondisiId">
                                         <option v-for="kondisi in kondisiList" :value="kondisi.id">
-                                            {{kondisi.nama}}</option>
+                                            {{ kondisi.kode }} - {{kondisi.nama}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

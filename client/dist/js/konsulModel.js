@@ -10,93 +10,93 @@ const answers = [
 
 const questions = [
     {
-        code: 'K01',
+        code: 'K001',
         text: 'Apakah Anda tinggal dekat dengan laut?',
         answers: answers
     },
     {
-        code: 'K02',
+        code: 'K002',
         text: 'Apakah Anda tinggal di pusat kota?',
         answers: answers
     },
     {
-        code: 'K03',
+        code: 'K003',
         text: 'Apakah Anda tinggal dekat pasar tradisional?',
         answers: answers
     },
     {
-        code: 'K04',
+        code: 'K004',
         text: 'Apakah Anda tinggal di pedesaan?',
         answers: answers
     },
     {
-        code: 'K05',
+        code: 'K005',
         text: 'Apakah Anda tinggal dekat perusahaan batu dan pasir?',
         answers: answers
     },
     {
-        code: 'K06',
+        code: 'K006',
         text: 'Apakah Anda tinggal di perumahan?',
         answers: answers
     },
     {
-        code: 'K07',
+        code: 'K007',
         text: 'Apakah Anda tinggal di dataran tinggi?',
         answers: answers
     },
     {
-        code: 'K08',
+        code: 'K008',
         text: 'Apakah bangunan tempat Anda tinggal memiliki kurang dari 4 lantai?',
         answers: answers
     },
     {
-        code: 'K09',
+        code: 'K009',
         text: 'Apakah bangunan tempat Anda tinggal memiliki lebih dari 4 lantai?',
         answers: answers
     },
     {
-        code: 'K10',
+        code: 'K010',
         text: 'Apakah bangunan tempat Anda tinggal merupakan bangunan baru?',
         answers: answers
     },
     {
-        code: 'K11',
+        code: 'K011',
         text: 'Apakah bangunan tempat Anda tinggal merupakan bangunan lama?',
         answers: answers
     },
     {
-        code: 'K12',
+        code: 'K012',
         text: 'Apakah dinding bangunan tempat Anda tinggal memiliki plesteran kasar?',
         answers: answers
     },
     {
-        code: 'K13',
+        code: 'K013',
         text: 'Apakah dinding bangunan tempat Anda tinggal memiliki plesteran setengah halus?',
         answers: answers
     },
     {
-        code: 'K14',
+        code: 'K014',
         text: 'Apakah dinding bangunan tempat Anda tinggal memiliki plesteran halus?',
         answers: answers
     },
     {
-        code: 'K15',
+        code: 'K015',
         text: 'Apakah dinding bangunan tempat Anda tinggal lembap?',
         answers: answers
     },
     {
-        code: 'K16',
-        text: 'Apakah harga properti tempat Anda tinggal murah?',
+        code: 'K016',
+        text: 'Apakah harga cat yang Anda inginkan murah?',
         answers: answers
     },
     {
-        code: 'K17',
-        text: 'Apakah harga properti tempat Anda tinggal menengah?',
+        code: 'K017',
+        text: 'Apakah harga cat yang Anda inginkan menengah?',
         answers: answers
     },
     {
-        code: 'K18',
-        text: 'Apakah harga properti tempat Anda tinggal mahal?',
+        code: 'K018',
+        text: 'Apakah harga cat yang Anda inginkan mahal?',
         answers: answers
     }
 ]
