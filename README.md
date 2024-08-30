@@ -17,14 +17,17 @@ Sistem ini adalah aplikasi sistem pakar yang dirancang untuk membantu pengguna d
 ## Cara Menggunakan
 
 1. **Kloning repositori**:
+
    ```bash
    git clone https://github.com/victorown/spcat.git
    ```
-2. **Install dependencies untuk server dan client:** 
+3. **Install dependencies untuk server dan client:** 
+
    ```bash
    npm install
    ```
-3. **Jalankan Aplikasi:**
+4. **Jalankan Aplikasi:**
+
    ```bash
    bun run index.js
    ```
