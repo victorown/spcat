@@ -26,7 +26,12 @@ Sistem ini adalah aplikasi sistem pakar yang dirancang untuk membantu pengguna d
    ```bash
    npm install
    ```
-4. **Jalankan Aplikasi:**
+4. **Database Migration untuk server:** 
+
+   ```bash
+   npx sequelize-cli db:migrate
+   ```
+5. **Jalankan Aplikasi:**
 
    ```bash
    bun run index.js
